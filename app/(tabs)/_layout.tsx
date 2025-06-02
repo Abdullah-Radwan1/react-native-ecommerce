@@ -2,20 +2,18 @@
 import { COLORS } from "@/constants/theme";
 import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-
+import { StyleSheet } from "react-native";
 export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "blue",
-        tabBarInactiveTintColor: "gray",
         tabBarShowLabel: false, // This hides the titles
         tabBarStyle: {
           backgroundColor: "black",
-          borderWidth: 0,
+
           position: "absolute",
           height: 40,
-          paddingBottom: 4,
+
           elevation: 0,
         },
       }}
@@ -23,6 +21,11 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="notifications"
         options={{
+          headerStyle: {
+            backgroundColor: "black", // Title and icons color
+          },
+          headerTintColor: "white", // Title text color
+
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="notifications" size={size} color={color} />
           ),
@@ -47,6 +50,10 @@ export default function TabsLayout() {
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="favorite-border" size={size} color={color} />
           ),
+          headerStyle: {
+            backgroundColor: "black", // Title and icons color
+          },
+          headerTintColor: "white", // Title text color
           tabBarActiveTintColor: COLORS.primaryLight,
           tabBarInactiveTintColor: COLORS.lightGrey,
         }}
@@ -76,3 +83,14 @@ export default function TabsLayout() {
     </Tabs>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#1c1f26", // Cool dark background
+    padding: 16,
+  },
+  text: {
+    color: "white",
+    fontSize: 18,
+  },
+});

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { SignOutButton } from "../(auth)/sign_out_button";
 
 export default class profile extends Component {
   render() {
     return (
       <View>
-        <Text>profile</Text>
+        <SignOutButton />
       </View>
     );
   }
