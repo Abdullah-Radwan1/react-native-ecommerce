@@ -134,7 +134,7 @@ export default function Page() {
       <Snackbar
         visible={visible}
         onDismiss={() => setVisible(false)}
-        duration={5000}
+        duration={1000}
       >
         {snackbarMessage}
       </Snackbar>

@@ -2,13 +2,7 @@ import { COLORS } from "@/constants/theme";
 import { useSignUp } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
-import {
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  View,
-} from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
 import { Button, Snackbar, Text, TextInput } from "react-native-paper";
 
 export default function SignUpScreen() {
@@ -26,7 +20,8 @@ export default function SignUpScreen() {
 
     // Basic client-side validation
     if (!emailAddress || !password) {
-      Alert.alert("Missing Fields", "Please enter both email and password.");
+      setSnackbarMessage("Email and password are required.");
+      setVisible(true);
       return;
     }
 
@@ -38,21 +33,18 @@ export default function SignUpScreen() {
         password,
       });
 
-      setVisible(true);
       setSnackbarMessage("Sign up successfully!");
+      setVisible(true);
       router.push("/");
     } catch (err: any) {
       const message =
         err?.errors?.[0]?.long_message ||
         err?.message ||
         "Something went wrong during sign up.";
-      setVisible(true);
       setSnackbarMessage(message);
+      setVisible(true);
     } finally {
       setLoading(false);
-      setTimeout(() => {
-        setVisible(false);
-      }, 5000);
     }
   };
 
@@ -62,6 +54,15 @@ export default function SignUpScreen() {
       style={styles.container}
     >
       <>
+        <Snackbar
+          theme={{ colors: { surface: COLORS.surface, text: COLORS.text } }}
+          style={{ backgroundColor: COLORS.primaryDark }}
+          visible={visible}
+          onDismiss={() => setVisible(false)}
+          duration={5000}
+        >
+          {snackbarMessage}
+        </Snackbar>
         <View style={styles.header}>
           <Text variant="headlineMedium" style={styles.title}>
             Create Account
@@ -120,14 +121,6 @@ export default function SignUpScreen() {
           </Link>
         </View>
       </>
-
-      <Snackbar
-        visible={visible}
-        onDismiss={() => setVisible(false)}
-        duration={5000}
-      >
-        {snackbarMessage}
-      </Snackbar>
     </KeyboardAvoidingView>
   );
 }
