@@ -1,13 +1,13 @@
 import { COLORS } from "@/constants/theme";
-import { useAuth, useSignIn } from "@clerk/clerk-expo";
-import { Link, Redirect, useRouter } from "expo-router";
+import { useSignIn } from "@clerk/clerk-expo";
+import { Link, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
 import { Button, Snackbar, Text, TextInput } from "react-native-paper";
 
 export default function Page() {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
-  const { isSignedIn } = useAuth();
+
   const { signIn, setActive, isLoaded } = useSignIn();
   const router = useRouter();
   const [emailError, setEmailError] = React.useState("");
@@ -56,9 +56,7 @@ export default function Page() {
       }
     };
   }, [timeoutId]);
-  if (isSignedIn) {
-    return <Redirect href={"/"} />;
-  }
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -78,6 +76,7 @@ export default function Page() {
 
       <View>
         <TextInput
+          style={styles.input}
           autoFocus={true}
           mode="outlined"
           label="Email"
@@ -85,18 +84,17 @@ export default function Page() {
           keyboardType="email-address"
           value={emailAddress}
           onChangeText={setEmailAddress}
-          style={styles.input}
-          theme={{ roundness: 8 }}
+          placeholderTextColor={COLORS.textLight}
         />
 
         <TextInput
+          style={styles.input}
           mode="outlined"
           label="Password"
           value={password}
           onChangeText={setPassword}
           secureTextEntry={secureTextEntry}
-          style={styles.input}
-          theme={{ roundness: 8 }}
+          placeholderTextColor={"white"}
           right={
             <TextInput.Icon
               icon={secureTextEntry ? "eye-off" : "eye"}
@@ -162,7 +160,6 @@ const styles = StyleSheet.create({
 
   input: {
     marginBottom: 16,
-    backgroundColor: "white",
   },
   button: {
     marginTop: 24,

@@ -1,21 +1,24 @@
 // app/(tabs)/_layout.js
 import { COLORS } from "@/constants/theme";
+import { useClerk } from "@clerk/clerk-expo";
 import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { Tabs } from "expo-router";
-import { StyleSheet } from "react-native";
+import { Redirect, Tabs } from "expo-router";
 export default function TabsLayout() {
+  const { isSignedIn } = useClerk();
+  if (!isSignedIn) {
+    return <Redirect href="/(auth)/sign_in" />;
+  }
   return (
     <Tabs
       screenOptions={{
         tabBarShowLabel: false, // This hides the titles
         tabBarStyle: {
           backgroundColor: "black",
-
           position: "absolute",
           height: 40,
-
           elevation: 0,
         },
+        sceneStyle: { backgroundColor: "black" },
       }}
     >
       <Tabs.Screen
@@ -30,18 +33,22 @@ export default function TabsLayout() {
             <Ionicons name="notifications" size={size} color={color} />
           ),
           tabBarActiveTintColor: COLORS.primaryLight,
-          tabBarInactiveTintColor: COLORS.lightGrey,
+          tabBarInactiveTintColor: COLORS.textLight,
         }}
       />
       <Tabs.Screen
         name="home/index"
         options={{
+          headerStyle: {
+            backgroundColor: "black", // Title and icons color
+          },
+          headerTintColor: "white", // Title text color
           title: "home",
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="home" size={size} color={color} />
           ),
           tabBarActiveTintColor: COLORS.primaryLight,
-          tabBarInactiveTintColor: COLORS.lightGrey,
+          tabBarInactiveTintColor: COLORS.textLight,
         }}
       />
       <Tabs.Screen
@@ -55,42 +62,39 @@ export default function TabsLayout() {
           },
           headerTintColor: "white", // Title text color
           tabBarActiveTintColor: COLORS.primaryLight,
-          tabBarInactiveTintColor: COLORS.lightGrey,
+          tabBarInactiveTintColor: COLORS.textLight,
         }}
       />
 
       <Tabs.Screen
         name="profile"
         options={{
+          headerStyle: {
+            backgroundColor: "black", // Title and icons color
+          },
+          headerTintColor: "white", // Title text color
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="user-o" size={size} color={color} />
           ),
           tabBarActiveTintColor: COLORS.primaryLight,
-          tabBarInactiveTintColor: COLORS.lightGrey,
+          tabBarInactiveTintColor: COLORS.textLight,
         }}
       />
 
       <Tabs.Screen
         name="createPost"
         options={{
+          headerStyle: {
+            backgroundColor: "black", // Title and icons color
+          },
+          headerTintColor: "white", // Title text color
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="add-circle" size={size} color={color} />
           ),
           tabBarActiveTintColor: COLORS.primaryLight,
-          tabBarInactiveTintColor: COLORS.lightGrey,
+          tabBarInactiveTintColor: COLORS.textLight,
         }}
       />
     </Tabs>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#1c1f26", // Cool dark background
-    padding: 16,
-  },
-  text: {
-    color: "white",
-    fontSize: 18,
-  },
-});

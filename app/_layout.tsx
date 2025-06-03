@@ -1,4 +1,3 @@
-// app/_layout.js
 import { COLORS } from "@/constants/theme";
 import { ClerkProvider } from "@clerk/clerk-expo";
 import { tokenCache } from "@clerk/clerk-expo/token-cache";
@@ -8,12 +7,20 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function RootLayout() {
   const theme = {
+    dark: true,
+
     colors: {
-      primary: COLORS.primary, // Your blue color
-      accent: COLORS.accent2, // Your green color
+      primary: COLORS.primary,
+      accent: COLORS.accent2,
       background: COLORS.background,
-      text: COLORS.text,
+      surface: COLORS.lightGrey,
+      text: "white",
       placeholder: COLORS.textLight,
+      onSurface: COLORS.text,
+      disabled: "#555",
+      error: COLORS.accent2,
+      notification: COLORS.accent1,
+      backdrop: "rgba(0,0,0,0.5)",
     },
   };
 
@@ -26,13 +33,9 @@ export default function RootLayout() {
         <SafeAreaProvider>
           <Stack
             screenOptions={{
-              headerShown: false, // This hides the header for all screens
+              headerShown: false,
             }}
-          >
-            <Stack.Screen
-              name="(tabs)" // This must match your folder name
-            />
-          </Stack>
+          />
         </SafeAreaProvider>
       </ClerkProvider>
     </PaperProvider>

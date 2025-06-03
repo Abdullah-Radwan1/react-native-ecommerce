@@ -1,6 +1,6 @@
 import { COLORS } from "@/constants/theme";
-import { useAuth, useSignUp } from "@clerk/clerk-expo";
-import { Link, Redirect, useRouter } from "expo-router";
+import { useSignUp } from "@clerk/clerk-expo";
+import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   Alert,
@@ -12,8 +12,6 @@ import {
 import { Button, Snackbar, Text, TextInput } from "react-native-paper";
 
 export default function SignUpScreen() {
-  const { isSignedIn } = useAuth();
-
   const { isLoaded, signUp } = useSignUp();
   const router = useRouter();
   const [emailAddress, setEmailAddress] = useState("");
@@ -22,9 +20,7 @@ export default function SignUpScreen() {
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [visible, setVisible] = useState(false);
-  if (isSignedIn) {
-    return <Redirect href="/" />;
-  }
+
   const onSignUpPress = async () => {
     if (!isLoaded) return;
 
@@ -83,7 +79,6 @@ export default function SignUpScreen() {
           value={emailAddress}
           onChangeText={setEmailAddress}
           style={styles.input}
-          theme={{ roundness: 8 }}
         />
 
         <TextInput
@@ -93,7 +88,6 @@ export default function SignUpScreen() {
           onChangeText={setPassword}
           secureTextEntry={secureTextEntry}
           style={styles.input}
-          theme={{ roundness: 8 }}
           right={
             <TextInput.Icon
               icon={secureTextEntry ? "eye-off" : "eye"}
@@ -155,7 +149,6 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 16,
-    backgroundColor: "white",
   },
   button: {
     marginTop: 24,
