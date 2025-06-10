@@ -1,6 +1,6 @@
 import { COLORS } from "@/constants/theme";
-import { ClerkProvider } from "@clerk/clerk-expo";
-import { tokenCache } from "@clerk/clerk-expo/token-cache";
+import ClrekAndConvex from "@/providers/ClrekAndConvex";
+
 import { Stack } from "expo-router";
 import { PaperProvider } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -26,10 +26,7 @@ export default function RootLayout() {
 
   return (
     <PaperProvider theme={theme}>
-      <ClerkProvider
-        tokenCache={tokenCache}
-        publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY}
-      >
+      <ClrekAndConvex>
         <SafeAreaProvider>
           <Stack
             screenOptions={{
@@ -37,7 +34,7 @@ export default function RootLayout() {
             }}
           />
         </SafeAreaProvider>
-      </ClerkProvider>
+      </ClrekAndConvex>
     </PaperProvider>
   );
 }

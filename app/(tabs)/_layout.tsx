@@ -22,21 +22,6 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen
-        name="notifications"
-        options={{
-          headerStyle: {
-            backgroundColor: "black", // Title and icons color
-          },
-          headerTintColor: "white", // Title text color
-
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="notifications" size={size} color={color} />
-          ),
-          tabBarActiveTintColor: COLORS.primaryLight,
-          tabBarInactiveTintColor: COLORS.textLight,
-        }}
-      />
-      <Tabs.Screen
         name="home/index"
         options={{
           headerStyle: {
@@ -52,10 +37,39 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="notifications"
+        options={{
+          headerStyle: {
+            backgroundColor: "black", // Title and icons color
+          },
+          headerTintColor: "white", // Title text color
+
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="notifications" size={size} color={color} />
+          ),
+          tabBarActiveTintColor: COLORS.primaryLight,
+          tabBarInactiveTintColor: COLORS.textLight,
+        }}
+      />
+      <Tabs.Screen
+        name="createPost"
+        options={{
+          headerStyle: {
+            backgroundColor: "black", // Title and icons color
+          },
+          headerTintColor: "white", // Title text color
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="add-circle" size={size} color={color} />
+          ),
+          tabBarActiveTintColor: COLORS.primaryLight,
+          tabBarInactiveTintColor: COLORS.textLight,
+        }}
+      />
+      <Tabs.Screen
         name="favourite"
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="favorite-border" size={size} color={color} />
+            <MaterialIcons name="favorite" size={size} color={color} />
           ),
           headerStyle: {
             backgroundColor: "black", // Title and icons color
@@ -74,22 +88,7 @@ export default function TabsLayout() {
           },
           headerTintColor: "white", // Title text color
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="user-o" size={size} color={color} />
-          ),
-          tabBarActiveTintColor: COLORS.primaryLight,
-          tabBarInactiveTintColor: COLORS.textLight,
-        }}
-      />
-
-      <Tabs.Screen
-        name="createPost"
-        options={{
-          headerStyle: {
-            backgroundColor: "black", // Title and icons color
-          },
-          headerTintColor: "white", // Title text color
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="add-circle" size={size} color={color} />
+            <FontAwesome name="user" size={size} color={color} />
           ),
           tabBarActiveTintColor: COLORS.primaryLight,
           tabBarInactiveTintColor: COLORS.textLight,
