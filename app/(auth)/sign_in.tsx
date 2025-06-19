@@ -37,10 +37,10 @@ export default function Page() {
       });
       if (signInAttempt.status === "complete") {
         await setActive({ session: signInAttempt.createdSessionId });
-        router.replace("/");
       }
       setSnackbarMessage("Sign in successfully!");
       setVisible(true);
+      router.push("/");
     } catch (err: any) {
       console.error(JSON.stringify(err, null, 2));
       const message =
