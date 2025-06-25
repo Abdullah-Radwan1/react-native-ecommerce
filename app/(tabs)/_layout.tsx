@@ -11,6 +11,7 @@ export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
+        headerShown: false, // This shows the header
         tabBarShowLabel: false, // This hides the titles
         tabBarStyle: {
           backgroundColor: "black",
@@ -28,7 +29,7 @@ export default function TabsLayout() {
             backgroundColor: "black", // Title and icons color
           },
           headerTintColor: "white", // Title text color
-          title: "home",
+
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="home" size={size} color={color} />
           ),
