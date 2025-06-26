@@ -39,7 +39,6 @@ export const getFeedPosts = query({
     const postWithUserInteraction = await Promise.all(
       posts.map(async (post) => {
         const postAuthor = (await ctx.db.get(post.userId))!;
-        console.log(`Author for post ${post._id}:`, postAuthor);
 
         const isLiked = await ctx.db
           .query("likes")

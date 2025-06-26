@@ -45,7 +45,7 @@ const PostUI = ({ post }: PostUIProps) => {
       {/* Header with author info */}
       <View style={styles.header}>
         <View style={styles.authorInfo}>
-          <Image source={post.author.image || ""} style={styles.avatar} />
+          <Image source={post.author.image} style={styles.avatar} />
           <Text style={styles.authorName}>{post.author.username}</Text>
         </View>
 

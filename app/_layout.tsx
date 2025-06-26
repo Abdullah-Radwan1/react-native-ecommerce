@@ -1,14 +1,23 @@
 import { COLORS } from "@/constants/theme";
 import ClrekAndConvex from "@/providers/ClrekAndConvex";
-
-import { Stack } from "expo-router";
+import { useFonts } from "expo-font";
+import { SplashScreen, Stack } from "expo-router";
+import { useCallback } from "react";
 import { PaperProvider } from "react-native-paper";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 export default function RootLayout() {
+  const [fontsLoaded] = useFonts({
+    "jetBrainsMono-Medium": require("../assets/fonts/JetBrainsMono-Medium.ttf"),
+  });
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
   const theme = {
     dark: true,
-
     colors: {
       primary: COLORS.primary,
       accent: COLORS.accent2,
@@ -28,11 +37,9 @@ export default function RootLayout() {
     <PaperProvider theme={theme}>
       <ClrekAndConvex>
         <SafeAreaProvider>
-          <Stack
-            screenOptions={{
-              headerShown: false,
-            }}
-          />
+          <SafeAreaView style={{ flex: 1 }} onLayout={onLayoutRootView}>
+            <Stack screenOptions={{ headerShown: false }} />
+          </SafeAreaView>
         </SafeAreaProvider>
       </ClrekAndConvex>
     </PaperProvider>
