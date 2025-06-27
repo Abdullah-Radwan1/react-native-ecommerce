@@ -9,6 +9,7 @@ import {
 import { useMutation } from "convex/react";
 import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import CommentsModal from "./commentsModal";
 
 type PostUIProps = {
   post: {
@@ -24,7 +25,7 @@ type PostUIProps = {
     bookmarked: boolean;
     author: {
       username: string;
-      image: string;
+      image: string; //this type is of 
     };
   };
 };
@@ -32,6 +33,7 @@ const PostUI = ({ post }: PostUIProps) => {
   const [isliked, setIsLiked] = useState(post.isLiked);
   const [likeCount, setLikeCount] = useState(post.likes);
   const toggleLike = useMutation(api.post.toggleLike);
+  const [onClose, setonclose] = useState(false);
   const handleLike = async () => {
     try {
       const newIsLiked = await toggleLike({ postId: post._id });
@@ -68,11 +70,17 @@ const PostUI = ({ post }: PostUIProps) => {
               onPress={handleLike}
               name={isliked ? "heart" : "heart-outline"}
               size={24}
-              color={isliked ? COLORS.primaryLight : COLORS.textLight}
+              color={isliked ? COLORS.primaryLight : COLORS.textLight} 
             />
             <Text style={styles.actionText}>Like</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
+          <TouchableOpacity
+            onPress={() => {
+              setonclose(true);
+            }}
+           
+            style={styles.actionButton}
+          >
             <MaterialCommunityIcons
               name="comment-outline"
               size={24}
@@ -89,10 +97,19 @@ const PostUI = ({ post }: PostUIProps) => {
               size={24}
               color={COLORS.textLight}
             />
+            {/* this */}
             <Text style={styles.actionText}>Save</Text>
           </TouchableOpacity>
         </View>
       </View>
+      <CommentsModal
+        onClose={() => {
+          setonclose(false);
+        }}
+        postId={post._id}
+        onCommentAdd={handleLike}
+        visible={onClose}
+      />
     </View>
   );
 };
