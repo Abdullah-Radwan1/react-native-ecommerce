@@ -13,8 +13,10 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as bookmarks from "../bookmarks.js";
 import type * as comments from "../comments.js";
 import type * as http from "../http.js";
+import type * as notification from "../notification.js";
 import type * as post from "../post.js";
 import type * as user from "../user.js";
 
@@ -27,8 +29,10 @@ import type * as user from "../user.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  bookmarks: typeof bookmarks;
   comments: typeof comments;
   http: typeof http;
+  notification: typeof notification;
   post: typeof post;
   user: typeof user;
 }>;

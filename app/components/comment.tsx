@@ -21,15 +21,13 @@ export default function Comment({ comment }: { comment: Comment }) {
     <View style={styles.container}>
       <View style={styles.userContainer}>
         <Image source={{ uri: comment.user.image }} style={styles.avatar} />
-<View style={{flexDirection:"column"}}>
-<Text style={styles.username}>{comment.user.username}</Text>
-<Text style={styles.commentText}>{comment.content}</Text>
-</View>
+        <View style={{ flexDirection: "column" }}>
+          <Text style={styles.username}>{comment.user.username}</Text>
+          <Text style={styles.commentText}>{comment.content}</Text>
+        </View>
 
         <Text style={styles.time}>{formattedTime}</Text>
-
       </View>
-
     </View>
   );
 }
@@ -37,8 +35,6 @@ export default function Comment({ comment }: { comment: Comment }) {
 const styles = StyleSheet.create({
   container: {
     padding: 12,
-
-
   },
   userContainer: {
     flexDirection: "row",
@@ -55,13 +51,13 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     marginRight: 8,
     fontSize: 15,
-    color:"white"
+    color: "white",
   },
   time: {
     color: "white",
     fontSize: 11,
-    fontWeight:"200",
-    marginTop:2
+    fontWeight: "200",
+    marginTop: 2,
   },
   commentText: {
     fontSize: 14,

@@ -108,3 +108,39 @@ export const toggleLike = mutation({
     }
   },
 });
+
+export const deletePost = mutation({
+  args: { postId: v.id("posts") },
+  handler: async (ctx, args) => {
+    const user = await getAuthenticateduser(ctx);
+
+    const post = await ctx.db.get(args.postId);
+    if (!post) throw new Error("Post not found");
+    if (post.userId !== user._id) throw new Error("Unauthorized");
+
+    const [likes, comments, bookmarks] = await Promise.all([
+      ctx.db
+        .query("likes")
+        .withIndex("by_post", (q) => q.eq("postId", post._id))
+        .collect(),
+      ctx.db
+        .query("comments")
+        .withIndex("by_post", (q) => q.eq("postId", post._id))
+        .collect(),
+      ctx.db
+        .query("bookmarks")
+        .withIndex("by_post", (q) => q.eq("postId", post._id))
+        .collect(),
+    ]);
+
+    await Promise.all([
+      ...likes.map((like) => ctx.db.delete(like._id)),
+      ...comments.map((comment) => ctx.db.delete(comment._id)),
+      ...bookmarks.map((bookmark) => ctx.db.delete(bookmark._id)),
+    ]);
+
+    await ctx.db.delete(post._id);
+
+    return { success: true };
+  },
+});

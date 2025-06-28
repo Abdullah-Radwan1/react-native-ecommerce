@@ -35,7 +35,7 @@ export default function SignUpScreen() {
 
       setSnackbarMessage("Sign up successfully!");
       setVisible(true);
-      router.push("/");
+      router.push("/home");
     } catch (err: any) {
       const message =
         err?.errors?.[0]?.long_message ||

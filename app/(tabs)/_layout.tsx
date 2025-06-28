@@ -67,7 +67,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="favourite"
+        name="booked"
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="favorite" size={size} color={color} />

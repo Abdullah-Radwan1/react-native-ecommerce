@@ -10,7 +10,8 @@ import {
   Modal,
   Platform,
   StyleSheet,
-  Text, TextInput,
+  Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -69,27 +70,23 @@ export default function CommentsModal({
           />
         )}
 
-<View style={styles.footer}>
-  <TextInput
-    placeholder="Share your thoughts "
-    placeholderTextColor="#aaa"
-    onChangeText={setNewComment}
-    value={newComment}
-
-    multiline
-    style={styles.input}
-
-  
-  
-  />
-  <TouchableOpacity
-    style={styles.postButton}
-    onPress={handleAddComment}
-    disabled={!newComment.trim()}
-  >
-    <Text style={styles.postButtonText}>Post</Text>
-  </TouchableOpacity>
-</View>
+        <View style={styles.footer}>
+          <TextInput
+            placeholder="Share your thoughts "
+            placeholderTextColor="#aaa"
+            onChangeText={setNewComment}
+            value={newComment}
+            multiline
+            style={styles.input}
+          />
+          <TouchableOpacity
+            style={styles.postButton}
+            onPress={handleAddComment}
+            disabled={!newComment.trim()}
+          >
+            <Text style={styles.postButtonText}>Post</Text>
+          </TouchableOpacity>
+        </View>
       </KeyboardAvoidingView>
     </Modal>
   );
@@ -99,7 +96,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: COLORS.background,
-    paddingTop: 48,
+    paddingTop: 24,
   },
   header: {
     flexDirection: "row",
@@ -117,7 +114,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 60,
     backgroundColor: COLORS.background,
-
   },
   footer: {
     position: "absolute",
@@ -128,23 +124,21 @@ const styles = StyleSheet.create({
     padding: 16,
     borderTopWidth: 1,
     borderTopColor: "#333",
-  alignItems:"center",
-    flexDirection:"row",
-    gap:16
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 16,
   },
   input: {
-   borderColor:"#333",
+    borderColor: "#333",
     color: COLORS.white,
-  flex:1,
-  borderRadius:12,
+    flex: 1,
+    borderRadius: 12,
 
-    borderWidth:1,
-   paddingLeft:22,
-    alignContent:"center"
+    borderWidth: 1,
+    paddingLeft: 22,
+    alignContent: "center",
   },
   postButton: {
-  
-
     borderRadius: 10,
     alignItems: "center",
   },

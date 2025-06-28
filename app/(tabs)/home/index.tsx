@@ -13,7 +13,6 @@ const index = () => {
   const { signOut } = useAuth();
   const posts = useQuery(api.post.getFeedPosts);
 
-  console.log("posts:", posts);
   if (posts === undefined) return <Loader />;
 
   return posts.map((post) => (
@@ -37,7 +36,14 @@ const index = () => {
           {" "}
           Momentum
         </Text>
-        <Ionicons name="log-out-outline" color={"white"} size={26} />
+        <Ionicons
+          onPress={() => {
+            signOut();
+          }}
+          name="log-out-outline"
+          color={"white"}
+          size={26}
+        />
       </View>
       <FlatList
         data={posts}
