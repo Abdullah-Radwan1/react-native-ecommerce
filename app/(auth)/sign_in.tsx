@@ -53,6 +53,8 @@ export default function Page() {
         err?.errors?.[0]?.long_message ||
         err?.message ||
         "Something went wrong during sign in.";
+      setSnackbarMessage(message);
+      setVisible(true);
     }
   };
   useEffect(() => {
@@ -68,88 +70,97 @@ export default function Page() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <View style={styles.header}>
-        <Text variant="headlineMedium" style={styles.title}>
-          FunnyGram
-        </Text>
-        <Text
-          variant="bodyMedium"
-          style={{ color: COLORS.textMuted, textAlign: "center" }}
-        >
-          {/* inspirational sentence */}
-          don't miss any thing
-        </Text>
-      </View>
-      <Image
-        source={require("@/assets/images/hero4.png")} // ✅ Load from assets
-        style={{ width: "100%", height: 300 }}
-        resizeMode="cover"
-      />
-
       <View>
-        <TextInput
-          style={styles.input}
-          autoFocus={true}
-          mode="outlined"
-          label="Email"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          value={emailAddress}
-          onChangeText={setEmailAddress}
-          placeholderTextColor={COLORS.textLight}
-        />
-
-        <TextInput
-          style={styles.input}
-          mode="outlined"
-          label="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry={secureTextEntry}
-          placeholderTextColor={"white"}
-          right={
-            <TextInput.Icon
-              icon={secureTextEntry ? "eye-off" : "eye"}
-              onPress={() => setSecureTextEntry(!secureTextEntry)}
-            />
-          }
-        />
-        {emailError ? (
-          <Text
-            style={{
-              color: "red",
-
-              textAlign: "center",
-            }}
-          >
-            {emailError}
-          </Text>
-        ) : null}
-        <Button
-          mode="contained"
-          onPress={onSignInPress}
-          style={styles.button}
-          labelStyle={styles.buttonText}
+        <Snackbar
+          visible={visible}
+          onDismiss={() => setVisible(false)}
+          duration={5000}
+          style={{
+            position: "absolute",
+            backgroundColor: COLORS.surface,
+            borderRadius: 10,
+          }}
         >
-          Sign In
-        </Button>
+          {snackbarMessage}
+        </Snackbar>
+        <Image
+          source={require("@/assets/images/icon.png")} // ✅ Load from assets
+          style={{ width: 50, height: 50, marginHorizontal: "auto" }}
+          resizeMode="cover"
+        />
+        <View>
+          <Text variant="headlineMedium" style={styles.title}>
+            FunnyGram
+          </Text>
+          <Text style={{ color: COLORS.textMuted, textAlign: "center" }}>
+            {/* inspirational sentence */}
+            don't miss any thing
+          </Text>
+        </View>
+        <Image
+          source={require("@/assets/images/hero4.png")} // ✅ Load from assets
+          style={{ width: "100%", height: 300 }}
+          resizeMode="cover"
+        />
 
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>Don't have an account?</Text>
-          <Link href="/sign_up" asChild>
-            <Button mode="text" textColor={COLORS.text} compact>
-              Sign Up
-            </Button>
-          </Link>
+        <View>
+          <TextInput
+            style={styles.input}
+            autoFocus={true}
+            mode="outlined"
+            label="Email"
+            autoCapitalize="none"
+            keyboardType="email-address"
+            value={emailAddress}
+            onChangeText={setEmailAddress}
+            placeholderTextColor={COLORS.textLight}
+          />
+
+          <TextInput
+            style={styles.input}
+            mode="outlined"
+            label="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={secureTextEntry}
+            placeholderTextColor={"white"}
+            right={
+              <TextInput.Icon
+                icon={secureTextEntry ? "eye-off" : "eye"}
+                onPress={() => setSecureTextEntry(!secureTextEntry)}
+              />
+            }
+          />
+          {emailError ? (
+            <Text
+              style={{
+                color: "red",
+
+                textAlign: "center",
+              }}
+            >
+              {emailError}
+            </Text>
+          ) : null}
+          <Button
+            mode="contained"
+            onPress={onSignInPress}
+            style={styles.button}
+            labelStyle={styles.buttonText}
+          >
+            Sign In
+          </Button>
+
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>Don't have an account?</Text>
+            <Link href="/sign_up" asChild>
+              <Button mode="text" textColor={COLORS.text} compact>
+                Sign Up
+              </Button>
+            </Link>
+          </View>
         </View>
       </View>
-      <Snackbar
-        visible={visible}
-        onDismiss={() => setVisible(false)}
-        duration={1000}
-      >
-        {snackbarMessage}
-      </Snackbar>
     </KeyboardAvoidingView>
   );
 }
@@ -162,7 +173,6 @@ const styles = StyleSheet.create({
   },
   header: {
     textAlign: "center",
-    marginBottom: 20,
   },
   title: {
     fontSize: 35,

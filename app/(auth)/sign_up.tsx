@@ -2,7 +2,13 @@ import { COLORS } from "@/constants/theme";
 import { useSignUp } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
-import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  View,
+} from "react-native";
 import { Button, Snackbar, Text, TextInput } from "react-native-paper";
 
 export default function SignUpScreen() {
@@ -55,21 +61,36 @@ export default function SignUpScreen() {
     >
       <View>
         <Snackbar
-          theme={{ colors: { surface: COLORS.surface, text: COLORS.text } }}
-          style={{ backgroundColor: COLORS.primaryDark }}
+          style={{
+            position: "absolute",
+            backgroundColor: COLORS.surface,
+            borderRadius: 10,
+          }}
           visible={visible}
           onDismiss={() => setVisible(false)}
           duration={5000}
         >
           {snackbarMessage}
         </Snackbar>
-        <View style={styles.header}>
-          <Text variant="headlineMedium" style={styles.title}>
-            Create Account
-          </Text>
-          <Text style={{ color: COLORS.textLight, textAlign: "center" }}>
-            Join our community
-          </Text>
+        <Image
+          source={require("@/assets/images/icon2.png")} // ✅ Load from assets
+          style={{ width: 50, height: 50, marginHorizontal: "auto" }}
+          resizeMode="cover"
+        />
+        <View>
+          <View>
+            <Text variant="headlineMedium" style={styles.title}>
+              FunnyGram
+            </Text>
+            <Text style={{ color: COLORS.textLight, textAlign: "center" }}>
+              Join our community
+            </Text>
+          </View>
+          <Image
+            source={require("@/assets/images/hero4.png")} // ✅ Load from assets
+            style={{ width: "100%", height: 300, marginHorizontal: "auto" }}
+            resizeMode="cover"
+          />
         </View>
 
         <TextInput
@@ -107,9 +128,7 @@ export default function SignUpScreen() {
         >
           Continue
         </Button>
-        <Snackbar visible={visible} onDismiss={() => setVisible(false)}>
-          {snackbarMessage}
-        </Snackbar>
+
         <View style={styles.footer}>
           <Text style={{ color: COLORS.textLight }}>
             Already have an account?
@@ -131,14 +150,14 @@ const styles = StyleSheet.create({
     padding: 24,
     justifyContent: "center",
   },
-  header: {
-    marginBottom: 32,
-    textAlign: "center",
-  },
+
   title: {
+    fontSize: 35,
     textAlign: "center",
-    marginBottom: 8,
-    color: COLORS.primaryDark,
+    marginBottom: 4,
+    color: COLORS.primaryLight,
+    fontFamily: "jetBrainsMono-Medium",
+    letterSpacing: 2,
   },
   input: {
     marginBottom: 16,

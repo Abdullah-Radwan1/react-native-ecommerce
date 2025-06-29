@@ -87,15 +87,23 @@ export default function PostCreationScreen() {
         style={styles.header}
         disabled={uploading}
       >
-        <Ionicons name="close-outline" size={24} color={COLORS.white} />
+        <Ionicons
+          name="arrow-back-circle-outline"
+          size={24}
+          color={COLORS.white}
+        />
         <Text style={styles.headerTitle}>Add new post</Text>
-        <TouchableOpacity onPress={handleShare} disabled={uploading}>
-          {uploading ? (
-            <ActivityIndicator size="small" color={COLORS.primaryLight} />
-          ) : (
-            <Text style={styles.shareButton}>Share</Text>
-          )}
-        </TouchableOpacity>
+        {image ? (
+          <TouchableOpacity onPress={handleShare} disabled={uploading}>
+            {uploading ? (
+              <ActivityIndicator size="small" color={COLORS.primaryLight} />
+            ) : (
+              <Text style={styles.shareButton}>Share</Text>
+            )}
+          </TouchableOpacity>
+        ) : (
+          <Ionicons name="image" size={24} color={COLORS.white} />
+        )}
       </TouchableOpacity>
 
       {/* Content */}
@@ -135,7 +143,7 @@ export default function PostCreationScreen() {
             onPress={pickImage}
             activeOpacity={0.7}
           >
-            <MaterialIcons name="image" size={72} color={COLORS.white} />
+            <MaterialIcons name="image" size={72} color={COLORS.lightGrey} />
             <Text style={styles.imagePickerText}>Select your image</Text>
           </TouchableOpacity>
         )}
@@ -157,8 +165,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   headerTitle: {
-    fontWeight: "600",
-    color: COLORS.white,
+    fontWeight: "400",
+    color: COLORS.primaryLight,
+    fontSize: 20,
   },
   shareButton: {
     color: COLORS.primaryLight,
@@ -195,12 +204,12 @@ const styles = StyleSheet.create({
     color: COLORS.white,
   },
   imagePicker: {
+    position: "absolute",
+    top: "30%",
     alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
   },
   imagePickerText: {
-    color: COLORS.white,
+    color: COLORS.lightGrey,
     marginTop: 8,
     fontSize: 16,
   },

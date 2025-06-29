@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   closeButton: {
-    backgroundColor: COLORS.primaryDark,
+    backgroundColor: COLORS.primaryLight,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 8,
@@ -409,7 +409,7 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     flex: 1,
-    backgroundColor: COLORS.primaryDark,
+    backgroundColor: COLORS.primaryLight,
     paddingVertical: 10,
     borderRadius: 8,
     marginLeft: 10,

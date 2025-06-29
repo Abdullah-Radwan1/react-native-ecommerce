@@ -1,29 +1,27 @@
 export const COLORS = {
-  // ✅ Primary (Blue theme)
-  primary: "#0E61D1", // Strong blue (your original)
-  primaryLight: "#3A7BFF", // Lighter, brighter blue
-  primaryDark: "#0A4DA6", // Darker blue
+  primary: "#03a456",
+  primaryLight: "#00bf63",
 
-  // ✅ Neutrals for dark mode
-  background: "#121212", // Very dark background (unchanged)
-  surface: "#1E1E1E", // Slightly lighter for cards, inputs (unchanged)
-  lightGrey: "#2A2A2A", // For dividers or subtle containers (unchanged)
-  border: "#343A40", // For borders (unchanged)
+  background: "#121212",
+  surface: "#1E1E1E",
+  lightGrey: "#686b69",
+  border: "#343A40",
 
-  text: "#EAECEF", // Main text (off-white, unchanged)
-  textLight: "#B0B8C1", // Subtext or placeholder text (unchanged)
-  textMuted: "#8A8F98", // Less emphasis (unchanged)
+  text: "#EAF7ED",
+  textLight: "#A6C0B5",
+  textMuted: "#7C8F87",
 
-  // ✅ Accent colors (updated to complement blue)
-  accent1: "#FFD700", // Gold (kept as it contrasts well with blue)
-  accent2: "#FF6B6B", // Softer red (better with blue than tomato)
+  accent1: "#F4D35E",
+  accent2: "#FF9F1C",
 
-  // ✅ Status colors (optional additions)
-  success: "#4CAF50", // Green
-  warning: "#FFC107", // Amber
-  error: "#F44336", // Red
+  success: "#2E7D32",
+  warning: "#FFB300",
+  error: "#E53935",
 
-  // ✅ Base
   white: "#FFFFFF",
   black: "#000000",
+
+  // Optional
+  info: "#17A2B8",
+  backgroundLight: "#1B2B1F",
 };

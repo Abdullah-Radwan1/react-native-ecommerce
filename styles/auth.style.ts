@@ -14,7 +14,7 @@
 //   title: {
 //     fontSize: 32,
 //     fontWeight: "700",
-//     color: COLORS.primaryDark,
+//     color: COLORS.primaryLight,
 //     marginBottom: 8,
 //   },
 //   subtitle: {
@@ -68,7 +68,7 @@
 //     color: COLORS.textLight,
 //   },
 //   footerLink: {
-//     color: COLORS.primaryDark,
+//     color: COLORS.primaryLight,
 //     fontWeight: "600",
 //   },
 // });
