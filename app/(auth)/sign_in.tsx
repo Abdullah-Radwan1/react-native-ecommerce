@@ -2,7 +2,13 @@ import { COLORS } from "@/constants/theme";
 import { useSignIn } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  View,
+} from "react-native";
 import { Button, Snackbar, Text, TextInput } from "react-native-paper";
 
 export default function Page() {
@@ -64,15 +70,21 @@ export default function Page() {
     >
       <View style={styles.header}>
         <Text variant="headlineMedium" style={styles.title}>
-          Welcome Back
+          FunnyGram
         </Text>
         <Text
           variant="bodyMedium"
-          style={{ color: COLORS.text, textAlign: "center" }}
+          style={{ color: COLORS.textMuted, textAlign: "center" }}
         >
-          Sign in to continue
+          {/* inspirational sentence */}
+          don't miss any thing
         </Text>
       </View>
+      <Image
+        source={require("@/assets/images/hero4.png")} // ✅ Load from assets
+        style={{ width: "100%", height: 300 }}
+        resizeMode="cover"
+      />
 
       <View>
         <TextInput
@@ -153,9 +165,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: {
+    fontSize: 35,
     textAlign: "center",
     marginBottom: 4,
-    color: COLORS.primaryDark,
+    color: COLORS.primaryLight,
+    fontFamily: "jetBrainsMono-Medium",
+    letterSpacing: 2,
   },
 
   input: {

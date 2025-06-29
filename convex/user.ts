@@ -10,8 +10,6 @@ export const createuser = mutation({
     clerkId: v.string(),
   },
   handler: async (ctx, args) => {
-    console.log("Creating user with args:", args);
-
     const existingUser = await ctx.db
       .query("users")
       .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
@@ -46,6 +44,27 @@ export const getUserByClerkId = query({
     return user;
   },
 });
+export const updateUser = mutation({
+  args: {
+    id: v.id("users"),
+    bio: v.optional(v.string()),
+    username: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_id", (q) => q.eq("_id", args.id))
+      .unique();
+    if (!user) {
+      throw new Error("User not found");
+    }
+    await ctx.db.patch(user._id, {
+      bio: args.bio,
+      username: args.username,
+    });
+  },
+});
+
 export async function getAuthenticateduser(ctx: QueryCtx | MutationCtx) {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) {

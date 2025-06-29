@@ -53,7 +53,7 @@ export default function SignUpScreen() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <>
+      <View>
         <Snackbar
           theme={{ colors: { surface: COLORS.surface, text: COLORS.text } }}
           style={{ backgroundColor: COLORS.primaryDark }}
@@ -120,7 +120,7 @@ export default function SignUpScreen() {
             </Button>
           </Link>
         </View>
-      </>
+      </View>
     </KeyboardAvoidingView>
   );
 }

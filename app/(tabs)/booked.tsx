@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
     color: COLORS.primaryLight,
   },
   scrollContainer: {
-    padding: 10,
+    paddingTop: 30,
+    padding: 20,
     backgroundColor: "#000",
   },
   grid: {

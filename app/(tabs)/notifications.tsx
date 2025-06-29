@@ -31,32 +31,44 @@ export default function Notifications() {
   }
 
   return (
-    <FlatList
-      data={notifications}
-      contentContainerStyle={styles.listContainer}
-      renderItem={({ item }) => (
-        <View style={styles.card}>
-          <Image source={{ uri: item.user.image }} style={styles.avatar} />
+    <View>
+      <Text style={styles.title}>Notifications</Text>
+      <FlatList
+        data={notifications}
+        contentContainerStyle={styles.listContainer}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <Image source={{ uri: item.user.image }} style={styles.avatar} />
 
-          <View style={styles.textContent}>
-            <Text style={styles.username}>{item.user.username}</Text>
-            <Text style={styles.message}>
-              {item.type === "like"
-                ? " liked your post ❤️"
-                : ` commented: "${item.comment?.content || "..."}" 💬`}
-            </Text>
+            <View style={styles.textContent}>
+              <Text style={styles.username}>{item.user.username}</Text>
+              <Text style={styles.message}>
+                {item.type === "like"
+                  ? " liked your post ❤️"
+                  : ` commented: "${item.comment?.content || "..."}" 💬`}
+              </Text>
+            </View>
+
+            {item.postImage && (
+              <Image
+                source={{ uri: item.postImage }}
+                style={styles.postThumb}
+              />
+            )}
           </View>
-
-          {item.postImage && (
-            <Image source={{ uri: item.postImage }} style={styles.postThumb} />
-          )}
-        </View>
-      )}
-    />
+        )}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    padding: 15,
+    color: COLORS.primaryLight,
+  },
   center: {
     flex: 1,
     justifyContent: "center",

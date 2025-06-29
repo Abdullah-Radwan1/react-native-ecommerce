@@ -30,6 +30,17 @@ export const createPost = mutation({
   },
 });
 
+export const getUserPosts = query({
+  args: { userId: v.id("users") },
+  handler: async (ctx, args) => {
+    const posts = await ctx.db
+      .query("posts")
+      .withIndex("by_user_id", (q) => q.eq("userId", args.userId))
+      .order("desc")
+      .take(10);
+    return posts;
+  },
+});
 export const getFeedPosts = query({
   handler: async (ctx) => {
     const user = await getAuthenticateduser(ctx);
