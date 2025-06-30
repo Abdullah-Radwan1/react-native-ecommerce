@@ -14,7 +14,8 @@ export const getNotification = query({
     // فلترة الإشعارات اللي نوعها like أو comment، ومستبعد اللي عملها هو نفسه
     const filtered = notifications.filter(
       (n) =>
-        (n.type === "like" || n.type === "comment") && n.senderId !== user._id
+        (n.type === "like" || n.type === "comment" || n.type === "follow") &&
+        n.senderId !== user._id
     );
 
     const notificationsWithInfo = await Promise.all(

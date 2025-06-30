@@ -34,7 +34,7 @@ export default function TabsLayout() {
             <MaterialIcons name="home" size={size} color={color} />
           ),
           tabBarActiveTintColor: COLORS.primaryLight,
-          tabBarInactiveTintColor: COLORS.textLight,
+          tabBarInactiveTintColor: COLORS.white,
         }}
       />
       <Tabs.Screen
@@ -49,7 +49,7 @@ export default function TabsLayout() {
             <Ionicons name="notifications" size={size} color={color} />
           ),
           tabBarActiveTintColor: COLORS.primaryLight,
-          tabBarInactiveTintColor: COLORS.textLight,
+          tabBarInactiveTintColor: COLORS.white,
         }}
       />
       <Tabs.Screen
@@ -63,7 +63,7 @@ export default function TabsLayout() {
             <Ionicons name="add-circle" size={size} color={color} />
           ),
           tabBarActiveTintColor: COLORS.primaryLight,
-          tabBarInactiveTintColor: COLORS.textLight,
+          tabBarInactiveTintColor: COLORS.white,
         }}
       />
       <Tabs.Screen
@@ -77,7 +77,7 @@ export default function TabsLayout() {
           },
           headerTintColor: "white", // Title text color
           tabBarActiveTintColor: COLORS.primaryLight,
-          tabBarInactiveTintColor: COLORS.textLight,
+          tabBarInactiveTintColor: COLORS.white,
         }}
       />
 
@@ -92,7 +92,7 @@ export default function TabsLayout() {
             <FontAwesome name="user" size={size} color={color} />
           ),
           tabBarActiveTintColor: COLORS.primaryLight,
-          tabBarInactiveTintColor: COLORS.textLight,
+          tabBarInactiveTintColor: COLORS.white,
         }}
       />
     </Tabs>

@@ -108,6 +108,7 @@ export const toggleFollow = mutation({
     if (existing) {
       await ctx.db.delete(existing._id);
       await updateFollowCount(ctx, user._id, args.followerId, false);
+      return false;
     } else {
       await ctx.db.insert("follows", {
         followerId: user._id,
@@ -121,6 +122,7 @@ export const toggleFollow = mutation({
       });
 
       await updateFollowCount(ctx, user._id, args.followerId, true);
+      return true;
     }
   },
 });
@@ -148,7 +150,22 @@ const updateFollowCount = async (
       : Math.max(0, following.followers - 1),
   });
 };
+export const getFollowStatus = query({
+  args: { targetUserId: v.id("users") },
+  handler: async (ctx, args) => {
+    const user = await getAuthenticateduser(ctx);
+    if (!user) return false;
 
+    const existing = await ctx.db
+      .query("follows")
+      .withIndex("by_follower_and_following", (q) =>
+        q.eq("followerId", user._id).eq("followingId", args.targetUserId)
+      )
+      .first();
+
+    return !!existing; // true if follow exists, else false
+  },
+});
 export async function getAuthenticateduser(ctx: QueryCtx | MutationCtx) {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) {

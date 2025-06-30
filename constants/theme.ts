@@ -3,7 +3,7 @@ export const COLORS = {
   primaryLight: "#00bf63",
 
   background: "#121212",
-  surface: "#1E1E1E",
+  surface: "#ffffff",
   lightGrey: "#686b69",
   border: "#343A40",
 
@@ -12,7 +12,6 @@ export const COLORS = {
   textMuted: "#7C8F87",
 
   accent1: "#F4D35E",
-  accent2: "#FF9F1C",
 
   success: "#2E7D32",
   warning: "#FFB300",

@@ -95,9 +95,11 @@ const PostUI = ({ post }: PostUIProps) => {
             }
             asChild
           >
-            <Image source={post.imageUrl} style={styles.avatar} />
+            <TouchableOpacity style={styles.authorInfo}>
+              <Image source={{ uri: user?.imageUrl }} style={styles.avatar} />
+              <Text style={styles.authorName}>{post.author.username}</Text>
+            </TouchableOpacity>
           </Link>
-          <Text style={styles.authorName}>{post.author.username}</Text>
         </View>
 
         {convexUser?._id === post.userId ? (
@@ -126,7 +128,7 @@ const PostUI = ({ post }: PostUIProps) => {
                 onPress={handleLike}
                 name={isliked ? "heart" : "heart-outline"}
                 size={24}
-                color={isliked ? COLORS.primaryLight : COLORS.textLight}
+                color={isliked ? COLORS.primaryLight : COLORS.white}
               />
             </TouchableOpacity>
 
@@ -139,13 +141,11 @@ const PostUI = ({ post }: PostUIProps) => {
               <MaterialCommunityIcons
                 name="comment-outline"
                 size={24}
-                color={COLORS.textLight}
+                color={COLORS.white}
               />
             </TouchableOpacity>
           </View>
-          <Text
-            style={{ color: COLORS.textLight, fontSize: 12, marginTop: 10 }}
-          >
+          <Text style={{ color: COLORS.white, fontSize: 12, marginTop: 10 }}>
             {likeCount === 0
               ? "be the first to like !"
               : `${likeCount} liked this`}{" "}
@@ -156,7 +156,7 @@ const PostUI = ({ post }: PostUIProps) => {
             <MaterialIcons
               name="bookmark-border"
               size={24}
-              color={isBooked ? COLORS.primaryLight : COLORS.textLight}
+              color={isBooked ? COLORS.primaryLight : COLORS.white}
             />
           </TouchableOpacity>
         </View>
@@ -225,14 +225,7 @@ const PostUI = ({ post }: PostUIProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 10,
-    marginVertical: 8,
-    padding: 15,
-    shadowColor: "white",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 2,
+    marginVertical: 2,
   },
   postImage: {
     width: "100%",
@@ -287,7 +280,7 @@ const styles = StyleSheet.create({
   book: {},
   actionText: {
     fontSize: 14,
-    color: COLORS.textLight,
+    color: COLORS.white,
   },
   // Delete Modal Styles
   deleteModalContainer: {
@@ -316,7 +309,7 @@ const styles = StyleSheet.create({
   },
   deleteModalMessage: {
     fontSize: 16,
-    color: COLORS.textLight || "#cccccc",
+    color: COLORS.white || "#cccccc",
     textAlign: "center",
     lineHeight: 22,
     marginBottom: 25,

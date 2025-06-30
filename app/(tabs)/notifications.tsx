@@ -9,6 +9,7 @@ import {
   Image,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 
@@ -30,7 +31,6 @@ export default function Notifications() {
       </View>
     );
   }
-
   return (
     <View>
       <Text style={styles.title}>Notifications</Text>
@@ -40,15 +40,26 @@ export default function Notifications() {
         renderItem={({ item }) => (
           <View style={styles.card}>
             <Link href={`/user/${item.user.id}`} asChild>
-              <Image source={{ uri: item.user.image }} style={styles.avatar} />
+              <TouchableOpacity>
+                <Image
+                  source={{ uri: item.user.image }}
+                  style={styles.avatar}
+                />
+              </TouchableOpacity>
             </Link>
 
             <View style={styles.textContent}>
-              <Text style={styles.username}>{item.user.username}</Text>
+              <Link href={`/user/${item.user.id}`} asChild>
+                <TouchableOpacity>
+                  <Text style={styles.username}>{item.user.username}</Text>
+                </TouchableOpacity>
+              </Link>
               <Text style={styles.message}>
                 {item.type === "like"
-                  ? " liked your post ❤️"
-                  : ` commented: "${item.comment?.content || "..."}" 💬`}
+                  ? " Liked Your Post ❤️"
+                  : item.type === "comment"
+                    ? ` Commented: "${item.comment?.content}" 💬`
+                    : "Started Following You"}
               </Text>
             </View>
 
@@ -69,7 +80,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: "bold",
-    padding: 15,
+    padding: 10,
     color: COLORS.primaryLight,
   },
   center: {

@@ -4,35 +4,43 @@ import { Id } from "@/convex/_generated/dataModel";
 import { Ionicons } from "@expo/vector-icons";
 import { useMutation, useQuery } from "convex/react";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Dimensions,
   FlatList,
   Image,
   Modal,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
 
-const imageSize = (Dimensions.get("window").width - 60) / 3;
-
 const ProfileScreen = () => {
   const router = useRouter();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { id } = useLocalSearchParams();
-
   const user = useQuery(api.user.getUserProfile, { userId: id as Id<"users"> });
   const userposts = useQuery(api.user.getUserPosts, {
     userId: id as Id<"users">,
   });
+  const followStatus = useQuery(api.user.getFollowStatus, {
+    targetUserId: id as Id<"users">,
+  });
+  useEffect(() => {
+    setIsFollowing(followStatus);
+  }, [followStatus]);
   const toggleFollow = useMutation(api.user.toggleFollow);
+  const [isFollowing, setIsFollowing] = useState(followStatus);
+
   if (!user) {
     return null;
   }
+
+  const handleFollow = async () => {
+    const result = await toggleFollow({ followerId: user._id });
+    setIsFollowing(result); // result is true if now following, false if unfollowed
+  };
   const handleGoBack = () => {
     if (router.canGoBack()) {
       router.back();
@@ -40,12 +48,9 @@ const ProfileScreen = () => {
       router.replace("/(tabs)/home");
     }
   };
-  const handleFollow = async () => {
-    await toggleFollow({ followerId: user._id });
-    // Handle follow logic here
-  };
+
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>{user.username}</Text>
         <Ionicons
@@ -76,7 +81,10 @@ const ProfileScreen = () => {
         </View>
       </View>
 
-      <TouchableOpacity onPress={handleFollow} style={styles.followButton}>
+      <TouchableOpacity
+        onPress={handleFollow}
+        style={isFollowing ? styles.unfollowButton : styles.followButton}
+      >
         <Text
           style={{
             textAlign: "center",
@@ -84,17 +92,22 @@ const ProfileScreen = () => {
             color: COLORS.text,
           }}
         >
-          Follow
+          {isFollowing === undefined
+            ? "Loading..."
+            : isFollowing
+              ? "Unfollow"
+              : "Follow"}
         </Text>
       </TouchableOpacity>
 
-      <View style={styles.scrollContainer}>
+      <View>
         <Text style={styles.title}> Posts</Text>
         {userposts?.length === 0 ? (
           <Text style={styles.noPosts}>No Posts Yet</Text>
         ) : (
           <FlatList
             data={userposts}
+            numColumns={3} // This enables the grid layout
             renderItem={({ item }) => (
               <TouchableOpacity
                 onPress={() => {
@@ -130,7 +143,7 @@ const ProfileScreen = () => {
       </Modal>
 
       {/* Edit Profile Modal */}
-    </ScrollView>
+    </View>
   );
 };
 
@@ -140,21 +153,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
-    paddingTop: 30,
     paddingHorizontal: 20,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 10,
   },
-  headerTitle: {
-    fontSize: 30,
-    color: COLORS.primaryLight,
-    fontWeight: "bold",
-    fontFamily: "jetBrainsMono-Medium",
-  },
+
   profileSection: {
     alignItems: "center",
     paddingVertical: 10,
@@ -176,9 +182,9 @@ const styles = StyleSheet.create({
 
   bio: {
     fontSize: 14,
-    color: COLORS.textLight,
     textAlign: "center",
     marginBottom: 10,
+    color: COLORS.text,
   },
   statsContainer: {
     flexDirection: "row",
@@ -192,14 +198,11 @@ const styles = StyleSheet.create({
   statCount: {
     fontSize: 18,
     fontWeight: "bold",
-    color: COLORS.accent1,
+    color: COLORS.white,
   },
   statLabel: {
     fontSize: 14,
-    color: COLORS.textMuted,
-  },
-  scrollContainer: {
-    paddingVertical: 10,
+    color: COLORS.accent1,
   },
 
   title: {
@@ -207,19 +210,10 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
     color: COLORS.primaryLight,
-    marginBottom: 12,
+    marginVertical: 12,
     fontFamily: "jetBrainsMono-Medium",
   },
-  grid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
-  imageWrapper: {
-    width: imageSize,
-    height: imageSize,
-    marginBottom: 6,
-  },
+
   image: {
     height: 100,
     width: 100,
@@ -230,7 +224,6 @@ const styles = StyleSheet.create({
     paddingVertical: 50,
   },
   emptyText: {
-    color: COLORS.textMuted,
     fontSize: 18,
     textAlign: "center",
   },
@@ -239,13 +232,13 @@ const styles = StyleSheet.create({
   noPosts: {
     textAlign: "center",
     fontSize: 16,
-    color: COLORS.textMuted,
     fontFamily: "jetBrainsMono-Medium",
   },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    padding: 10,
     backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
   modalImage: {
@@ -253,14 +246,8 @@ const styles = StyleSheet.create({
     height: 300,
     borderRadius: 12,
     marginBottom: 20,
-    borderWidth: 2,
-    borderColor: COLORS.primary,
-  },
-  modalText: {
-    fontSize: 16,
-    color: COLORS.text,
-    textAlign: "center",
-    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: COLORS.white,
   },
   closeButton: {
     backgroundColor: COLORS.primaryLight,
@@ -271,16 +258,25 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     fontSize: 16,
     fontWeight: "bold",
+    paddingHorizontal: 20,
   },
 
   followButton: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
     backgroundColor: COLORS.primaryLight,
     paddingVertical: 10,
     marginTop: 10,
+  },
+  unfollowButton: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    borderWidth: 1,
+    paddingVertical: 10,
+    marginTop: 10,
+    borderColor: COLORS.primaryLight,
   },
   modalContent: {
     backgroundColor: COLORS.surface,

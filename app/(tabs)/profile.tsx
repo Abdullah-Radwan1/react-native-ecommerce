@@ -13,7 +13,6 @@ import {
   KeyboardAvoidingView,
   Modal,
   Platform,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -97,30 +96,28 @@ export default function Profile() {
       </View>
 
       {/* Posts Section */}
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Text style={styles.title}>My Posts</Text>
-        {NumberOfPosts === 0 || posts === undefined ? (
-          <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>No posts Yet</Text>
-          </View>
-        ) : (
-          <View style={styles.grid}>
-            <FlatList
-              data={posts}
-              keyExtractor={(item) => item._id}
-              numColumns={3}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  onPress={() => setSelectedPost(item)}
-                  style={styles.imageWrapper}
-                >
-                  <Image source={{ uri: item.imageUrl }} style={styles.image} />
-                </TouchableOpacity>
-              )}
-            />
-          </View>
-        )}
-      </ScrollView>
+
+      <Text style={styles.title}>My Posts</Text>
+      {NumberOfPosts === 0 || posts === undefined ? (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>No posts Yet</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={posts}
+          keyExtractor={(item) => item._id}
+          numColumns={3}
+          style={{ paddingHorizontal: 30 }}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() => setSelectedPost(item)}
+              style={styles.imageWrapper}
+            >
+              <Image source={{ uri: item.imageUrl }} style={styles.image} />
+            </TouchableOpacity>
+          )}
+        />
+      )}
 
       {/* Post Modal */}
       <Modal
@@ -217,13 +214,12 @@ function Stat({ label, count }: { label: string; count: number }) {
 }
 
 const screenWidth = Dimensions.get("window").width;
-const imageSize = screenWidth / 3 - 4 * 2;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
-    paddingTop: 30,
+    paddingTop: 20,
   },
   header: {
     flexDirection: "row",
@@ -306,8 +302,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   imageWrapper: {
-    width: imageSize,
-    height: imageSize,
+    width: 100,
+    height: 100,
     marginBottom: 6,
   },
   image: {
@@ -368,7 +364,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   modalContent: {
-    backgroundColor: COLORS.surface,
+    backgroundColor: COLORS.background,
     padding: 20,
     borderRadius: 12,
     width: "100%",
@@ -386,10 +382,8 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border,
     borderRadius: 8,
     padding: 10,
-    fontSize: 16,
     color: COLORS.text,
     marginBottom: 15,
-    backgroundColor: COLORS.lightGrey,
   },
   textArea: {
     height: 100,
