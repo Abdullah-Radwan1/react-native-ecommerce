@@ -9,6 +9,7 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import { useMutation, useQuery } from "convex/react";
+import { Link } from "expo-router";
 import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Modal from "react-native-modal";
@@ -49,7 +50,9 @@ const PostUI = ({ post }: PostUIProps) => {
     api.user.getUserByClerkId,
     user ? { clerkId: user?.id } : "skip"
   );
-
+  const userId = useQuery(api.user.getUserByClerkId, {
+    clerkId: user?.id as Id<"users">,
+  })?._id;
   const handleLike = async () => {
     try {
       const newIsLiked = await toggleLike({ postId: post._id });
@@ -79,13 +82,21 @@ const PostUI = ({ post }: PostUIProps) => {
       setIsDeleting(false);
     }
   };
-
   return (
     <View style={styles.container}>
       {/* Header with author info */}
       <View style={styles.header}>
         <View style={styles.authorInfo}>
-          <Image source={post.author.image} style={styles.avatar} />
+          <Link
+            href={
+              post.userId === userId
+                ? "/(tabs)/profile"
+                : `/user/${post.userId}`
+            }
+            asChild
+          >
+            <Image source={post.imageUrl} style={styles.avatar} />
+          </Link>
           <Text style={styles.authorName}>{post.author.username}</Text>
         </View>
 

@@ -34,7 +34,7 @@ export default function Profile() {
   );
 
   const posts = useQuery(
-    api.post.getUserPosts,
+    api.user.getUserPosts,
     userData ? { userId: userData?._id } : "skip"
   );
   const updateProfile = useMutation(api.user.updateUser);

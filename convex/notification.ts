@@ -29,6 +29,7 @@ export const getNotification = query({
           user: {
             image: sender?.image,
             username: sender?.username,
+            id: sender?._id,
           },
           postImage: post?.imageUrl,
           comment,

@@ -1,6 +1,7 @@
 import { COLORS } from "@/constants/theme";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
+import { Link } from "expo-router";
 import React from "react";
 import {
   ActivityIndicator,
@@ -38,7 +39,9 @@ export default function Notifications() {
         contentContainerStyle={styles.listContainer}
         renderItem={({ item }) => (
           <View style={styles.card}>
-            <Image source={{ uri: item.user.image }} style={styles.avatar} />
+            <Link href={`/user/${item.user.id}`} asChild>
+              <Image source={{ uri: item.user.image }} style={styles.avatar} />
+            </Link>
 
             <View style={styles.textContent}>
               <Text style={styles.username}>{item.user.username}</Text>
