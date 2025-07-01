@@ -14,12 +14,17 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { Snackbar } from "react-native-paper";
+import Loader from "../components/Loader";
 
 const ProfileScreen = () => {
   const router = useRouter();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { id } = useLocalSearchParams();
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [visible, setVisible] = useState(false);
+  console.log(visible);
   const user = useQuery(api.user.getUserProfile, { userId: id as Id<"users"> });
   const userposts = useQuery(api.user.getUserPosts, {
     userId: id as Id<"users">,
@@ -34,12 +39,14 @@ const ProfileScreen = () => {
   const [isFollowing, setIsFollowing] = useState(followStatus);
 
   if (!user) {
-    return null;
+    return <Loader />;
   }
 
   const handleFollow = async () => {
     const result = await toggleFollow({ followerId: user._id });
     setIsFollowing(result); // result is true if now following, false if unfollowed
+    setVisible(true);
+    setSnackbarMessage("Followed successfully!");
   };
   const handleGoBack = () => {
     if (router.canGoBack()) {
@@ -60,12 +67,10 @@ const ProfileScreen = () => {
           color={COLORS.text}
         />
       </View>
-
       <View style={styles.profileSection}>
         <Image source={{ uri: user.image }} style={styles.profileImage} />
         <Text style={styles.bio}>{user.bio ? user.bio : "no bio yet"}</Text>
       </View>
-
       <View style={styles.statsContainer}>
         <View style={styles.statBox}>
           <Text style={styles.statCount}>{user.posts}</Text>
@@ -80,7 +85,6 @@ const ProfileScreen = () => {
           <Text style={styles.statLabel}>Following</Text>
         </View>
       </View>
-
       <TouchableOpacity
         onPress={handleFollow}
         style={isFollowing ? styles.unfollowButton : styles.followButton}
@@ -95,11 +99,10 @@ const ProfileScreen = () => {
           {isFollowing === undefined
             ? "Loading..."
             : isFollowing
-              ? "Unfollow"
+              ? "Following"
               : "Follow"}
         </Text>
       </TouchableOpacity>
-
       <View>
         <Text style={styles.title}> Posts</Text>
         {userposts?.length === 0 ? (
@@ -121,7 +124,6 @@ const ProfileScreen = () => {
           />
         )}
       </View>
-
       {/* Post Modal */}
       <Modal visible={modalVisible} transparent animationType="fade">
         <View style={styles.modalContainer}>
@@ -141,8 +143,16 @@ const ProfileScreen = () => {
           )}
         </View>
       </Modal>
-
-      {/* Edit Profile Modal */}
+      {/* Edit Profile Modal */}{" "}
+      <Snackbar
+        style={styles.snackbar}
+        visible={visible}
+        onDismiss={() => setVisible(false)}
+        // duration={5000}
+        icon={"check"}
+      >
+        <Text style={{ color: COLORS.white }}>{snackbarMessage}s</Text>
+      </Snackbar>
     </View>
   );
 };
@@ -265,7 +275,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
-    backgroundColor: COLORS.primaryLight,
+    backgroundColor: COLORS.primary,
     paddingVertical: 10,
     marginTop: 10,
   },
@@ -326,5 +336,12 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     fontSize: 16,
     fontWeight: "600",
+  },
+  snackbar: {
+    backgroundColor: COLORS.success,
+    borderRadius: 10,
+    bottom: 20,
+    left: 20,
+    position: "absolute",
   },
 });

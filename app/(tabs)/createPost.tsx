@@ -82,16 +82,10 @@ export default function PostCreationScreen() {
       style={styles.container}
     >
       {/* Header */}
-      <TouchableOpacity
-        onPress={resetForm}
-        style={styles.header}
-        disabled={uploading}
-      >
-        <Ionicons
-          name="arrow-back-circle-outline"
-          size={24}
-          color={COLORS.white}
-        />
+      <View style={styles.header}>
+        <TouchableOpacity onPress={resetForm} disabled={uploading}>
+          <Ionicons name="close-outline" size={24} color={COLORS.white} />
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Add new post</Text>
         {image ? (
           <TouchableOpacity onPress={handleShare} disabled={uploading}>
@@ -104,7 +98,7 @@ export default function PostCreationScreen() {
         ) : (
           <Ionicons name="image" size={24} color={COLORS.white} />
         )}
-      </TouchableOpacity>
+      </View>
 
       {/* Content */}
       <View style={styles.contentContainer}>

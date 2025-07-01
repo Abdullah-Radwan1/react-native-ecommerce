@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   edit: {
-    backgroundColor: COLORS.border,
+    backgroundColor: COLORS.primary,
     padding: 10,
     borderRadius: 5,
     alignSelf: "center",

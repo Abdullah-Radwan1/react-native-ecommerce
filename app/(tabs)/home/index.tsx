@@ -20,19 +20,16 @@ const Index = () => {
   if (!isSignedIn) {
     return <Redirect href="/(auth)/sign_in" />;
   }
-  if (!isLoaded) {
-    return <Loader />;
-  }
 
   return (
-    <View style={{ flex: 1, padding: 12 }}>
+    <View style={{ flex: 1, padding: 12, marginBottom: 20 }}>
       {/* Header */}
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          marginBottom: 20,
+          marginBottom: 10,
         }}
       >
         <Text
@@ -42,10 +39,10 @@ const Index = () => {
             color: COLORS.primaryLight,
           }}
         >
-          Chirp
+          FunnyGram
         </Text>
         <Image
-          source={require("@/assets/images/icon.png")}
+          source={require("@/assets/images/Icon.png")}
           style={{ width: 30, height: 30 }}
         />
       </View>
@@ -54,14 +51,18 @@ const Index = () => {
       <FlatList
         data={posts ?? []}
         renderItem={({ item }) => (
-          <View style={{ marginBottom: 30 }}>
+          <View style={{ marginBottom: 25 }}>
             <PostUI post={{ ...item, bookmarked: item.isBooked }} />
           </View>
         )}
         keyExtractor={(post) => post._id}
         ListEmptyComponent={
           <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
             <Loader />
           </View>

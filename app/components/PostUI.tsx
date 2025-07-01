@@ -96,7 +96,10 @@ const PostUI = ({ post }: PostUIProps) => {
             asChild
           >
             <TouchableOpacity style={styles.authorInfo}>
-              <Image source={{ uri: user?.imageUrl }} style={styles.avatar} />
+              <Image
+                source={{ uri: post.author.image }}
+                style={styles.avatar}
+              />
               <Text style={styles.authorName}>{post.author.username}</Text>
             </TouchableOpacity>
           </Link>
@@ -290,7 +293,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   deleteModalContent: {
-    backgroundColor: COLORS.lightGrey || "#1a1a1a",
+    backgroundColor: COLORS.black || "#1a1a1a",
     borderRadius: 15,
     padding: 25,
     alignItems: "center",

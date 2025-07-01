@@ -1,5 +1,5 @@
 import { COLORS } from "@/constants/theme";
-import { useSignIn, useSSO } from "@clerk/clerk-expo";
+import { useClerk, useSignIn, useSSO } from "@clerk/clerk-expo";
 import { Ionicons } from "@expo/vector-icons";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -21,7 +21,10 @@ export default function SignInScreen() {
   const [loading, setLoading] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [visible, setVisible] = useState(false);
-
+  const { isSignedIn } = useClerk();
+  if (isSignedIn) {
+    router.replace("/(tabs)/home");
+  }
   const onSignInPress = async () => {
     if (!isLoaded) return;
 
@@ -68,7 +71,7 @@ export default function SignInScreen() {
         </Snackbar>
 
         <Image
-          source={require("@/assets/images/icon.png")}
+          source={require("@/assets/images/Icon.png")}
           style={{ width: 50, height: 50, marginHorizontal: "auto" }}
           resizeMode="cover"
         />
@@ -83,7 +86,7 @@ export default function SignInScreen() {
         </View>
 
         <Image
-          source={require("@/assets/images/hero4.png")}
+          source={require("@/assets/images/hero.png")}
           style={{ width: "100%", height: 300, marginHorizontal: "auto" }}
           resizeMode="cover"
         />

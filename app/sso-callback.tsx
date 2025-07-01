@@ -1,9 +1,11 @@
+import { useClerk } from "@clerk/clerk-expo";
 import { useRootNavigation, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 
 export default function SSOCallbackScreen() {
   const router = useRouter();
+  const { isSignedIn } = useClerk();
   const rootNavigation = useRootNavigation(); // Detect if root layout is ready
   const [navigationReady, setNavigationReady] = useState(false);
 
@@ -23,7 +25,7 @@ export default function SSOCallbackScreen() {
 
   // Only navigate once the router is ready
   useEffect(() => {
-    if (navigationReady) {
+    if (navigationReady || isSignedIn) {
       router.replace("/(tabs)/home"); // ✅ Safe manual redirect
     }
   }, [navigationReady]);

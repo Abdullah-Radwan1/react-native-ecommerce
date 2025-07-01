@@ -95,7 +95,7 @@ export default function CommentsModal({
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.black,
     paddingTop: 24,
   },
   header: {
@@ -113,14 +113,14 @@ const styles = StyleSheet.create({
   commentsList: {
     paddingHorizontal: 16,
     paddingBottom: 60,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.black,
   },
   footer: {
     position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.black,
     padding: 16,
     borderTopWidth: 1,
     borderTopColor: "#333",

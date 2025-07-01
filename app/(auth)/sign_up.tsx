@@ -69,7 +69,7 @@ export default function SignUpScreen() {
           {snackbarMessage}
         </Snackbar>
         <Image
-          source={require("@/assets/images/icon.png")} // ✅ Load from assets
+          source={require("@/assets/images/Icon.png")} // ✅ Load from assets
           style={{ width: 50, height: 50, marginHorizontal: "auto" }}
           resizeMode="cover"
         />
@@ -83,7 +83,7 @@ export default function SignUpScreen() {
             </Text>
           </View>
           <Image
-            source={require("@/assets/images/hero4.png")} // ✅ Load from assets
+            source={require("@/assets/images/hero.png")} // ✅ Load from assets
             style={{ width: "100%", height: 300, marginHorizontal: "auto" }}
             resizeMode="cover"
           />
@@ -124,7 +124,7 @@ export default function SignUpScreen() {
           by continuing you agree to our Terms of Service.
         </Text>
         <View style={styles.footer}>
-          <Text style={{ color: COLORS.text }}>Already have an account ?</Text>
+          <Text style={{ color: COLORS.text }}>Already have an account?</Text>
           <Link href="/sign_in" asChild>
             <Button mode="text" compact textColor={COLORS.text}>
               Sign In
