@@ -152,7 +152,7 @@ export default ProfileScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.black,
     paddingHorizontal: 20,
   },
   header: {

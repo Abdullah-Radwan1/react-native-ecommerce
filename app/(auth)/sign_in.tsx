@@ -1,69 +1,56 @@
 import { COLORS } from "@/constants/theme";
-import { useSignIn } from "@clerk/clerk-expo";
+import { useSignIn, useSSO } from "@clerk/clerk-expo";
+import { Ionicons } from "@expo/vector-icons";
 import { Link, useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Image,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from "react-native";
-import { Button, Snackbar, Text, TextInput } from "react-native-paper";
+import { Button, Snackbar, Text } from "react-native-paper";
 
-export default function Page() {
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
-
-  const { signIn, setActive, isLoaded } = useSignIn();
+export default function SignInScreen() {
+  const { isLoaded } = useSignIn();
+  const { startSSOFlow } = useSSO();
   const router = useRouter();
-  const [emailError, setEmailError] = React.useState("");
-  const [emailAddress, setEmailAddress] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [secureTextEntry, setSecureTextEntry] = React.useState(true);
+
+  const [loading, setLoading] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [visible, setVisible] = useState(false);
 
-  const validateEmail = () => {
-    if (!emailAddress.trim()) {
-      setEmailError("Email is required");
-      return false;
-    }
-    setEmailError("");
-    return true;
-  };
-
-  // Modify your submit handler
-
   const onSignInPress = async () => {
-    if (!isLoaded || !validateEmail()) return;
+    if (!isLoaded) return;
+
+    setLoading(true);
     try {
-      const signInAttempt = await signIn.create({
-        identifier: emailAddress,
-        password,
+      const { createdSessionId, setActive } = await startSSOFlow({
+        strategy: "oauth_google",
+        redirectUrl: undefined,
       });
-      if (signInAttempt.status === "complete") {
-        await setActive({ session: signInAttempt.createdSessionId });
+
+      if (createdSessionId && setActive) {
+        await setActive({ session: createdSessionId });
+        setSnackbarMessage("Signed in successfully!");
+        setVisible(true);
+
+        router.replace("/(tabs)/home"); // ✅ You control this now
+        await setActive({ session: createdSessionId }); // ⬅️ Important!
       }
-      setSnackbarMessage("Sign in successfully!");
-      setVisible(true);
-      router.push("/");
     } catch (err: any) {
-      console.error(JSON.stringify(err, null, 2));
       const message =
         err?.errors?.[0]?.long_message ||
         err?.message ||
         "Something went wrong during sign in.";
       setSnackbarMessage(message);
       setVisible(true);
+    } finally {
+      setLoading(false);
     }
   };
-  useEffect(() => {
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-    };
-  }, [timeoutId]);
 
   return (
     <KeyboardAvoidingView
@@ -72,93 +59,78 @@ export default function Page() {
     >
       <View>
         <Snackbar
+          style={styles.snackbar}
           visible={visible}
           onDismiss={() => setVisible(false)}
           duration={5000}
-          style={{
-            position: "absolute",
-            backgroundColor: COLORS.surface,
-            borderRadius: 10,
-          }}
         >
           {snackbarMessage}
         </Snackbar>
+
         <Image
-          source={require("@/assets/images/icon.png")} // ✅ Load from assets
+          source={require("@/assets/images/icon.png")}
           style={{ width: 50, height: 50, marginHorizontal: "auto" }}
           resizeMode="cover"
         />
+
         <View>
           <Text variant="headlineMedium" style={styles.title}>
             FunnyGram
           </Text>
-          <Text style={{ color: COLORS.textMuted, textAlign: "center" }}>
-            {/* inspirational sentence */}
-            don't miss any thing
+          <Text style={{ color: COLORS.textLight, textAlign: "center" }}>
+            Welcome back!
           </Text>
         </View>
+
         <Image
-          source={require("@/assets/images/hero4.png")} // ✅ Load from assets
-          style={{ width: "100%", height: 300 }}
+          source={require("@/assets/images/hero4.png")}
+          style={{ width: "100%", height: 300, marginHorizontal: "auto" }}
           resizeMode="cover"
         />
 
-        <View>
-          <TextInput
-            style={styles.input}
-            autoFocus={true}
-            mode="outlined"
-            label="Email"
-            autoCapitalize="none"
-            keyboardType="email-address"
-            value={emailAddress}
-            onChangeText={setEmailAddress}
-            placeholderTextColor={COLORS.textLight}
-          />
-
-          <TextInput
-            style={styles.input}
-            mode="outlined"
-            label="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={secureTextEntry}
-            placeholderTextColor={"white"}
-            right={
-              <TextInput.Icon
-                icon={secureTextEntry ? "eye-off" : "eye"}
-                onPress={() => setSecureTextEntry(!secureTextEntry)}
-              />
-            }
-          />
-          {emailError ? (
-            <Text
-              style={{
-                color: "red",
-
-                textAlign: "center",
-              }}
-            >
-              {emailError}
-            </Text>
-          ) : null}
+        <TouchableOpacity>
           <Button
             mode="contained"
             onPress={onSignInPress}
+            loading={loading}
+            disabled={loading}
             style={styles.button}
-            labelStyle={styles.buttonText}
+            textColor="white"
+            contentStyle={{
+              flexDirection: "row-reverse",
+            }}
+            icon={() => (
+              <Ionicons
+                name="logo-google"
+                size={20}
+                color="white"
+                style={{ marginRight: 8 }}
+              />
+            )}
           >
-            Sign In
+            Sign In with Google
           </Button>
+        </TouchableOpacity>
 
-          <View style={styles.footer}>
-            <Text style={styles.footerText}>Don't have an account?</Text>
-            <Link href="/sign_up" asChild>
-              <Button mode="text" textColor={COLORS.text} compact>
-                Sign Up
-              </Button>
-            </Link>
-          </View>
+        <Text
+          style={{
+            color: COLORS.textLight,
+            textAlign: "center",
+            fontSize: 12,
+            marginTop: 10,
+            lineHeight: 18,
+          }}
+        >
+          by continuing you agree to our Terms of Service.
+        </Text>
+
+        <View style={styles.footer}>
+          <Text style={{ color: COLORS.text }}>Don't have an account?</Text>
+          <Link href="/sign_up" asChild>
+            <Button mode="text" compact textColor={COLORS.text}>
+              Sign Up
+            </Button>
+          </Link>
         </View>
       </View>
     </KeyboardAvoidingView>
@@ -168,11 +140,8 @@ export default function Page() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 24,
     justifyContent: "center",
-  },
-  header: {
-    textAlign: "center",
   },
   title: {
     fontSize: 35,
@@ -182,23 +151,20 @@ const styles = StyleSheet.create({
     fontFamily: "jetBrainsMono-Medium",
     letterSpacing: 2,
   },
-
-  input: {
-    marginBottom: 16,
-  },
   button: {
     marginTop: 24,
+    alignItems: "center",
   },
-  buttonText: {
-    color: "white",
+  snackbar: {
+    position: "absolute",
+    backgroundColor: COLORS.surface,
+    borderRadius: 10,
   },
   footer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 24,
-  },
-  footerText: {
-    color: COLORS.textLight,
+    marginTop: 12,
+    gap: 4,
   },
 });

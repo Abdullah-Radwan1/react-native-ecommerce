@@ -7,7 +7,6 @@ import { useMutation, useQuery } from "convex/react";
 import { Redirect } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
-  Dimensions,
   FlatList,
   Image,
   KeyboardAvoidingView,
@@ -19,7 +18,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SignOutButton } from "../(auth)/sign_out_button";
+import SignOutButton from "../(auth)/sign_out_button";
 import Loader from "../components/Loader";
 
 export default function Profile() {
@@ -213,12 +212,9 @@ function Stat({ label, count }: { label: string; count: number }) {
   );
 }
 
-const screenWidth = Dimensions.get("window").width;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
     paddingTop: 20,
   },
   header: {
@@ -364,7 +360,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   modalContent: {
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.black,
     padding: 20,
     borderRadius: 12,
     width: "100%",
@@ -403,7 +399,7 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     flex: 1,
-    backgroundColor: COLORS.primaryLight,
+    backgroundColor: COLORS.primary,
     paddingVertical: 10,
     borderRadius: 8,
     marginLeft: 10,

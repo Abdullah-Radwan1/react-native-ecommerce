@@ -17,7 +17,6 @@ export const createuser = mutation({
       .first();
 
     if (existingUser) {
-      console.log("User already exists:", existingUser);
       throw new Error("User already exists");
     }
 
@@ -168,6 +167,7 @@ export const getFollowStatus = query({
 });
 export async function getAuthenticateduser(ctx: QueryCtx | MutationCtx) {
   const identity = await ctx.auth.getUserIdentity();
+
   if (!identity) {
     throw new Error("Unauthorized: User identity is required.");
   }

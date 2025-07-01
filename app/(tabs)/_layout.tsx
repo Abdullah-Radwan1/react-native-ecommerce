@@ -2,12 +2,17 @@
 import { COLORS } from "@/constants/theme";
 import { useClerk } from "@clerk/clerk-expo";
 import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { Redirect, Tabs } from "expo-router";
+import { Tabs, useRouter } from "expo-router";
+import { useEffect } from "react";
 export default function TabsLayout() {
   const { isSignedIn } = useClerk();
-  if (!isSignedIn) {
-    return <Redirect href="/(auth)/sign_in" />;
-  }
+  const router = useRouter();
+  useEffect(() => {
+    if (!isSignedIn) {
+      router.push("/(auth)/sign_in");
+    }
+  }, [isSignedIn]);
+
   return (
     <Tabs
       screenOptions={{

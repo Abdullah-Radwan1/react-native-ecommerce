@@ -1,5 +1,6 @@
 import { COLORS } from "@/constants/theme";
-import { useSignUp } from "@clerk/clerk-expo";
+import { useSignUp, useSSO } from "@clerk/clerk-expo";
+import { Ionicons } from "@expo/vector-icons";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -7,41 +8,36 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from "react-native";
-import { Button, Snackbar, Text, TextInput } from "react-native-paper";
+import { Button, Snackbar, Text } from "react-native-paper";
 
 export default function SignUpScreen() {
-  const { isLoaded, signUp } = useSignUp();
+  const { isLoaded } = useSignUp();
+  const { startSSOFlow } = useSSO();
   const router = useRouter();
-  const [emailAddress, setEmailAddress] = useState("");
-  const [password, setPassword] = useState("");
+
   const [loading, setLoading] = useState(false);
-  const [secureTextEntry, setSecureTextEntry] = useState(true);
+
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [visible, setVisible] = useState(false);
-
   const onSignUpPress = async () => {
     if (!isLoaded) return;
-
-    // Basic client-side validation
-    if (!emailAddress || !password) {
-      setSnackbarMessage("Email and password are required.");
-      setVisible(true);
-      return;
-    }
 
     setLoading(true);
 
     try {
-      const result = await signUp.create({
-        emailAddress,
-        password,
+      const { createdSessionId, setActive } = await startSSOFlow({
+        strategy: "oauth_google",
       });
 
-      setSnackbarMessage("Sign up successfully!");
-      setVisible(true);
-      router.push("/home");
+      if (createdSessionId && setActive) {
+        setSnackbarMessage("Sign up successfully!");
+        setVisible(true);
+        await setActive({ session: createdSessionId }); // ⬅️ Important!
+        router.replace("/home");
+      }
     } catch (err: any) {
       const message =
         err?.errors?.[0]?.long_message ||
@@ -73,7 +69,7 @@ export default function SignUpScreen() {
           {snackbarMessage}
         </Snackbar>
         <Image
-          source={require("@/assets/images/icon2.png")} // ✅ Load from assets
+          source={require("@/assets/images/icon.png")} // ✅ Load from assets
           style={{ width: 50, height: 50, marginHorizontal: "auto" }}
           resizeMode="cover"
         />
@@ -93,46 +89,42 @@ export default function SignUpScreen() {
           />
         </View>
 
-        <TextInput
-          mode="outlined"
-          label="Email"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          value={emailAddress}
-          onChangeText={setEmailAddress}
-          style={styles.input}
-        />
-
-        <TextInput
-          mode="outlined"
-          label="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry={secureTextEntry}
-          style={styles.input}
-          right={
-            <TextInput.Icon
-              icon={secureTextEntry ? "eye-off" : "eye"}
-              onPress={() => setSecureTextEntry(!secureTextEntry)}
-            />
-          }
-        />
-
-        <Button
-          mode="contained"
-          onPress={onSignUpPress}
-          loading={loading}
-          disabled={loading}
-          style={styles.button}
-          textColor="white"
+        <TouchableOpacity>
+          <Button
+            mode="contained"
+            onPress={onSignUpPress}
+            loading={loading}
+            disabled={loading}
+            style={styles.button}
+            textColor="white"
+            contentStyle={{
+              flexDirection: "row-reverse", // This reverses the order so icon comes first
+            }}
+            icon={() => (
+              <Ionicons
+                name="logo-google"
+                size={20}
+                color="white"
+                style={{ marginRight: 8 }}
+              />
+            )}
+          >
+            Sign Up with Google
+          </Button>
+        </TouchableOpacity>
+        <Text
+          style={{
+            color: COLORS.textLight,
+            textAlign: "center",
+            fontSize: 12,
+            marginTop: 10,
+            lineHeight: 18,
+          }}
         >
-          Continue
-        </Button>
-
+          by continuing you agree to our Terms of Service.
+        </Text>
         <View style={styles.footer}>
-          <Text style={{ color: COLORS.textLight }}>
-            Already have an account?
-          </Text>
+          <Text style={{ color: COLORS.text }}>Already have an account ?</Text>
           <Link href="/sign_in" asChild>
             <Button mode="text" compact textColor={COLORS.text}>
               Sign In
@@ -159,17 +151,16 @@ const styles = StyleSheet.create({
     fontFamily: "jetBrainsMono-Medium",
     letterSpacing: 2,
   },
-  input: {
-    marginBottom: 16,
-  },
+
   button: {
     marginTop: 24,
+    alignItems: "center",
   },
   footer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 24,
+    marginTop: 12,
     gap: 4,
   },
 });

@@ -15,10 +15,10 @@ import {
   View,
 } from "react-native";
 import { Text } from "react-native-paper";
-import Loader from "../components/Loader";
 
 export default function Booked() {
-  const bookedPosts = useQuery(api.bookmarks.getBookmarks);
+  const bookedPosts = useQuery(api.bookmarks.getBookmarks) ?? [];
+
   const [selectedPost, setSelectedPost] = useState<Doc<"posts"> | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -30,10 +30,6 @@ export default function Booked() {
         }
       : "skip"
   );
-
-  if (!bookedPosts) {
-    return <Loader />;
-  }
 
   if (bookedPosts.length === 0) {
     return (
@@ -153,9 +149,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    padding: 16,
+    color: COLORS.white,
   },
   emptyText: {
-    color: COLORS.primaryLight,
+    color: COLORS.white,
     fontSize: 24,
     textAlign: "center",
   },

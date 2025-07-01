@@ -4,7 +4,7 @@
     "slug": "my-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/tweet.png",
+    "icon": "./assets/images/tweeticon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/tweet.png",
+        "foregroundImage": "./assets/images/tweeticon.png",
         "backgroundColor": "#000000"
       },
       "edgeToEdgeEnabled": true
@@ -28,7 +28,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/tweet.png",
+          "image": "./assets/images/tweeticon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#000000"
