@@ -45,8 +45,13 @@ const ProfileScreen = () => {
   const handleFollow = async () => {
     const result = await toggleFollow({ followerId: user._id });
     setIsFollowing(result); // result is true if now following, false if unfollowed
-    setVisible(true);
-    setSnackbarMessage("Followed successfully!");
+    if (result === false) {
+      setVisible(true);
+      setSnackbarMessage(`Unfollowed ${user.username}`);
+    } else {
+      setVisible(true);
+      setSnackbarMessage(`Now Following ${user.username}!`);
+    }
   };
   const handleGoBack = () => {
     if (router.canGoBack()) {
@@ -143,7 +148,7 @@ const ProfileScreen = () => {
           )}
         </View>
       </Modal>
-      {/* Edit Profile Modal */}{" "}
+      {/* Edit Profile Modal */}
       <Snackbar
         style={styles.snackbar}
         visible={visible}
@@ -151,7 +156,7 @@ const ProfileScreen = () => {
         // duration={5000}
         icon={"check"}
       >
-        <Text style={{ color: COLORS.white }}>{snackbarMessage}s</Text>
+        <Text style={{ color: COLORS.white }}>{snackbarMessage}</Text>
       </Snackbar>
     </View>
   );
@@ -243,6 +248,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     fontFamily: "jetBrainsMono-Medium",
+    color: COLORS.white,
   },
   modalContainer: {
     flex: 1,
@@ -308,7 +314,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.text,
     marginBottom: 15,
-    backgroundColor: COLORS.lightGrey,
   },
   textArea: {
     height: 100,
@@ -338,7 +343,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   snackbar: {
-    backgroundColor: COLORS.success,
+    backgroundColor: COLORS.primary,
     borderRadius: 10,
     bottom: 20,
     left: 20,

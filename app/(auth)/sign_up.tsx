@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Button, Snackbar, Text } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 
 export default function SignUpScreen() {
   const { isLoaded } = useSignUp();
@@ -20,8 +20,6 @@ export default function SignUpScreen() {
 
   const [loading, setLoading] = useState(false);
 
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [visible, setVisible] = useState(false);
   const onSignUpPress = async () => {
     if (!isLoaded) return;
 
@@ -33,9 +31,7 @@ export default function SignUpScreen() {
       });
 
       if (createdSessionId && setActive) {
-        setSnackbarMessage("Sign up successfully!");
-        setVisible(true);
-        await setActive({ session: createdSessionId }); // ⬅️ Important!
+        setActive({ session: createdSessionId }); // ⬅️ Important!
         router.replace("/home");
       }
     } catch (err: any) {
@@ -43,8 +39,6 @@ export default function SignUpScreen() {
         err?.errors?.[0]?.long_message ||
         err?.message ||
         "Something went wrong during sign up.";
-      setSnackbarMessage(message);
-      setVisible(true);
     } finally {
       setLoading(false);
     }
@@ -56,18 +50,6 @@ export default function SignUpScreen() {
       style={styles.container}
     >
       <View>
-        <Snackbar
-          style={{
-            position: "absolute",
-            backgroundColor: COLORS.surface,
-            borderRadius: 10,
-          }}
-          visible={visible}
-          onDismiss={() => setVisible(false)}
-          duration={5000}
-        >
-          {snackbarMessage}
-        </Snackbar>
         <Image
           source={require("@/assets/images/Icon.png")} // ✅ Load from assets
           style={{ width: 50, height: 50, marginHorizontal: "auto" }}

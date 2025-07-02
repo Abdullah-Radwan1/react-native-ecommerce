@@ -360,7 +360,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   modalContent: {
-    backgroundColor: COLORS.black,
+    backgroundColor: COLORS.darkGrey,
     padding: 20,
     borderRadius: 12,
     width: "100%",

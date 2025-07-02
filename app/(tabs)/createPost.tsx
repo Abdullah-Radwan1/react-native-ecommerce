@@ -137,7 +137,7 @@ export default function PostCreationScreen() {
             onPress={pickImage}
             activeOpacity={0.7}
           >
-            <MaterialIcons name="image" size={72} color={COLORS.lightGrey} />
+            <MaterialIcons name="image" size={72} color={COLORS.whiteGrey} />
             <Text style={styles.imagePickerText}>Select your image</Text>
           </TouchableOpacity>
         )}
@@ -149,7 +149,7 @@ export default function PostCreationScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.black,
+    backgroundColor: COLORS.darkGrey,
   },
   header: {
     padding: 16,
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   imagePickerText: {
-    color: COLORS.lightGrey,
+    color: COLORS.whiteGrey,
     marginTop: 8,
     fontSize: 16,
   },

@@ -1,29 +1,31 @@
 export const COLORS = {
   // Primary Blues (unchanged)
-  primary: "#749BC2", // Soft muted blue
-  primaryLight: "#91C8E4", // Light airy blue
+  primary: "#2DAA9E", // Vibrant teal (stands out in dark mode)
+  primaryLight: "#66D2CE", // Bright but soft teal for accents
 
-  // Background & Surfaces (adjusted for better contrast)
-  background: "#0F172A", // Deep navy (better with blue than pure black)
-  surface: "#F8FAFC", // Off-white (softer than pure white)
-  lightGrey: "#E2E8F0", // Very light grey (better for UI elements)
-  border: "#CBD5E1", // Soft grey border (softer than dark grey)
+  // Dark Theme Background & Surfaces
+  background: "#121212", // Deep navy (better than pure black)
+  surface: "#1E293B", // Slightly lighter than background
+  surfaceLight: "#334155", // For cards, elevated elements
+  border: "#475569", // Soft blue-grey border (visible but not harsh)
 
-  // Text (adjusted for readability)
-  text: "#ffffff", // Dark navy (better contrast on light surfaces)
-  textLight: "#64748B", // Muted slate (softer secondary text)
-  textMuted: "#94A3B8", // Lighter grey (disabled/inactive text)
+  // Text (optimized for dark backgrounds)
+  text: "#F1F5F9", // Soft white (reduced glare)
+  textLight: "#CBD5E1", // Light grey (secondary text)
+  textMuted: "#94A3B8", // Muted blue-grey (disabled text)
 
-  // Accents (now complementing blue)
-  accent1: "#FFEDD5", // Warm peach (soft contrast to blue)
-  accent2: "#C7D2FE", // Light periwinkle (harmonizes with primary)
+  // Accents (work well in dark mode)
+  accent1: "#FFE4D6", // Warm peach (for alerts, highlights)
+  accent2: "#A3E5E2", // Light teal (complements primary)
 
-  // Status Colors (modern, accessible)
-  success: "#16A34A", // Fresh green
-  warning: "#F59E0B", // Amber yellow
-  error: "#DC2626", // Bold red (better visibility)
+  // Status Colors (higher contrast for dark UI)
+  success: "#10B981", // Brighter green (better visibility)
+  warning: "#F59E0B", // Amber yellow (stands out)
+  error: "#EF4444", // Coral red (pops on dark surfaces)
 
-  // Pure White & Black (kept for utility)
-  white: "#FFFFFF",
-  black: "#000000",
+  // Pure White & Black (use sparingly)
+  white: "#FFFFFF", // Only for maximum contrast needs
+  black: "#000000", // Rarely used in dark mode
+  darkGrey: "#121212", // Light grey for borders and dividers
+  whiteGrey: "#dddddd",
 };

@@ -1,19 +1,19 @@
 import { COLORS } from "@/constants/theme";
 import React from "react";
-import { View } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 
 const Loader = () => {
   return (
-    <View
+    <ActivityIndicator
       style={{
         flex: 1,
+        alignContent: "center",
         justifyContent: "center",
         alignItems: "center",
       }}
-    >
-      <ActivityIndicator color={COLORS.primaryLight} size="large" />
-    </View>
+      color={COLORS.primaryLight}
+      size="large"
+    />
   );
 };
 

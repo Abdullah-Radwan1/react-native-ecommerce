@@ -2,13 +2,16 @@
 import { COLORS } from "@/constants/theme";
 import { useClerk } from "@clerk/clerk-expo";
 import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { Tabs, useRouter } from "expo-router";
+import { Tabs, usePathname, useRouter } from "expo-router";
 import { useEffect } from "react";
 export default function TabsLayout() {
-  const { isSignedIn } = useClerk();
+  const { isSignedIn, loaded } = useClerk();
   const router = useRouter();
+  const pathname = usePathname(); // Get current path
+
   useEffect(() => {
-    if (!isSignedIn) {
+    console.log(pathname);
+    if (!isSignedIn && loaded) {
       router.push("/(auth)/sign_in");
     }
   }, [isSignedIn]);
@@ -24,7 +27,7 @@ export default function TabsLayout() {
           height: 40,
           elevation: 0,
         },
-        sceneStyle: { backgroundColor: "black" },
+        sceneStyle: { backgroundColor: COLORS.background },
       }}
     >
       <Tabs.Screen
@@ -38,7 +41,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="home" size={size} color={color} />
           ),
-          tabBarActiveTintColor: COLORS.primaryLight,
+          tabBarActiveTintColor: COLORS.primary,
           tabBarInactiveTintColor: COLORS.white,
         }}
       />
@@ -53,7 +56,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="notifications" size={size} color={color} />
           ),
-          tabBarActiveTintColor: COLORS.primaryLight,
+          tabBarActiveTintColor: COLORS.primary,
           tabBarInactiveTintColor: COLORS.white,
         }}
       />
@@ -67,7 +70,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="add-circle" size={size} color={color} />
           ),
-          tabBarActiveTintColor: COLORS.primaryLight,
+          tabBarActiveTintColor: COLORS.primary,
           tabBarInactiveTintColor: COLORS.white,
         }}
       />
@@ -81,7 +84,7 @@ export default function TabsLayout() {
             backgroundColor: "black", // Title and icons color
           },
           headerTintColor: "white", // Title text color
-          tabBarActiveTintColor: COLORS.primaryLight,
+          tabBarActiveTintColor: COLORS.primary,
           tabBarInactiveTintColor: COLORS.white,
         }}
       />
@@ -96,7 +99,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="user" size={size} color={color} />
           ),
-          tabBarActiveTintColor: COLORS.primaryLight,
+          tabBarActiveTintColor: COLORS.primary,
           tabBarInactiveTintColor: COLORS.white,
         }}
       />

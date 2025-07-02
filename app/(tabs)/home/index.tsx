@@ -4,7 +4,6 @@ import { COLORS } from "@/constants/theme";
 import { api } from "@/convex/_generated/api";
 import { useAuth } from "@clerk/clerk-expo";
 import { useQuery } from "convex/react";
-import { Redirect } from "expo-router";
 import React from "react";
 import { FlatList, Image, View } from "react-native";
 import { Text } from "react-native-paper";
@@ -17,9 +16,6 @@ const Index = () => {
     api.post.getFeedPosts,
     isLoaded && isSignedIn ? {} : "skip"
   );
-  if (!isSignedIn) {
-    return <Redirect href="/(auth)/sign_in" />;
-  }
 
   return (
     <View style={{ flex: 1, padding: 12, marginBottom: 20 }}>
@@ -56,17 +52,7 @@ const Index = () => {
           </View>
         )}
         keyExtractor={(post) => post._id}
-        ListEmptyComponent={
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Loader />
-          </View>
-        }
+        ListEmptyComponent={<Loader />}
       />
     </View>
   );

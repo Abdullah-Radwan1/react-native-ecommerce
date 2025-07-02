@@ -11,6 +11,7 @@ const ClrekAndConvex = ({ children }: { children: ReactNode }) => {
     <ClerkProvider
       tokenCache={tokenCache}
       publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY}
+      afterSignOutUrl={"/(auth)/sign-in"}
     >
       <ConvexProviderWithClerk useAuth={useAuth} client={convex}>
         <ClerkLoaded>{children}</ClerkLoaded>

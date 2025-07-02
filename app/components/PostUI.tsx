@@ -13,6 +13,7 @@ import { Link } from "expo-router";
 import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Modal from "react-native-modal";
+import { Snackbar } from "react-native-paper";
 import CommentsModal from "./commentsModal";
 
 type PostUIProps = {
@@ -44,7 +45,8 @@ const PostUI = ({ post }: PostUIProps) => {
   const toggleLike = useMutation(api.post.toggleLike);
   const toggleBookmark = useMutation(api.bookmarks.toggleBookark);
   const deletePost = useMutation(api.post.deletePost);
-
+  const [visible, setVisible] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
   const { user } = useUser();
   const convexUser = useQuery(
     api.user.getUserByClerkId,
@@ -68,6 +70,13 @@ const PostUI = ({ post }: PostUIProps) => {
   const handleBookmark = async () => {
     const newIsBooked = await toggleBookmark({ postId: post._id });
     setIsBooked(newIsBooked);
+    if (newIsBooked) {
+      setSnackbarMessage("Bookmarked");
+      setVisible(true);
+    } else {
+      setSnackbarMessage("Unbookmarked");
+      setVisible(true);
+    }
   };
 
   const handleDeletePost = async () => {
@@ -131,7 +140,7 @@ const PostUI = ({ post }: PostUIProps) => {
                 onPress={handleLike}
                 name={isliked ? "heart" : "heart-outline"}
                 size={24}
-                color={isliked ? COLORS.primaryLight : COLORS.white}
+                color={isliked ? COLORS.primary : COLORS.white}
               />
             </TouchableOpacity>
 
@@ -155,11 +164,11 @@ const PostUI = ({ post }: PostUIProps) => {
           </Text>
         </View>
         <View>
-          <TouchableOpacity onPress={handleBookmark} style={styles.book}>
+          <TouchableOpacity onPress={handleBookmark}>
             <MaterialIcons
               name="bookmark-border"
               size={24}
-              color={isBooked ? COLORS.primaryLight : COLORS.white}
+              color={isBooked ? COLORS.primary : COLORS.white}
             />
           </TouchableOpacity>
         </View>
@@ -222,6 +231,15 @@ const PostUI = ({ post }: PostUIProps) => {
           </View>
         </View>
       </Modal>
+      <Snackbar
+        style={styles.snackbar}
+        visible={visible}
+        onDismiss={() => setVisible(false)}
+        // duration={5000}
+        icon={"check"}
+      >
+        <Text style={{ color: COLORS.white }}>{snackbarMessage}</Text>
+      </Snackbar>
     </View>
   );
 };
@@ -280,7 +298,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  book: {},
   actionText: {
     fontSize: 14,
     color: COLORS.white,
@@ -342,6 +359,13 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "600",
+  },
+  snackbar: {
+    backgroundColor: COLORS.primary,
+    borderRadius: 10,
+    bottom: 20,
+    left: 20,
+    position: "absolute",
   },
 });
 

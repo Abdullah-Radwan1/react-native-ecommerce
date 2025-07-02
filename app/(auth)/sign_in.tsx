@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Button, Snackbar, Text } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 
 export default function SignInScreen() {
   const { isLoaded } = useSignIn();
@@ -19,8 +19,7 @@ export default function SignInScreen() {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [visible, setVisible] = useState(false);
+
   const { isSignedIn } = useClerk();
   if (isSignedIn) {
     router.replace("/(tabs)/home");
@@ -32,24 +31,18 @@ export default function SignInScreen() {
     try {
       const { createdSessionId, setActive } = await startSSOFlow({
         strategy: "oauth_google",
-        redirectUrl: undefined,
       });
 
       if (createdSessionId && setActive) {
-        await setActive({ session: createdSessionId });
-        setSnackbarMessage("Signed in successfully!");
-        setVisible(true);
-
+        setActive({ session: createdSessionId });
         router.replace("/(tabs)/home"); // ✅ You control this now
-        await setActive({ session: createdSessionId }); // ⬅️ Important!
       }
     } catch (err: any) {
       const message =
         err?.errors?.[0]?.long_message ||
         err?.message ||
         "Something went wrong during sign in.";
-      setSnackbarMessage(message);
-      setVisible(true);
+      console.log(message);
     } finally {
       setLoading(false);
     }
@@ -61,15 +54,6 @@ export default function SignInScreen() {
       style={styles.container}
     >
       <View>
-        <Snackbar
-          style={styles.snackbar}
-          visible={visible}
-          onDismiss={() => setVisible(false)}
-          duration={5000}
-        >
-          {snackbarMessage}
-        </Snackbar>
-
         <Image
           source={require("@/assets/images/Icon.png")}
           style={{ width: 50, height: 50, marginHorizontal: "auto" }}
@@ -150,7 +134,7 @@ const styles = StyleSheet.create({
     fontSize: 35,
     textAlign: "center",
     marginBottom: 4,
-    color: COLORS.primaryLight,
+    color: COLORS.primary,
     fontFamily: "jetBrainsMono-Medium",
     letterSpacing: 2,
   },
@@ -158,11 +142,7 @@ const styles = StyleSheet.create({
     marginTop: 24,
     alignItems: "center",
   },
-  snackbar: {
-    position: "absolute",
-    backgroundColor: COLORS.surface,
-    borderRadius: 10,
-  },
+
   footer: {
     flexDirection: "row",
     justifyContent: "center",
