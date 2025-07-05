@@ -2,17 +2,15 @@
 import { COLORS } from "@/constants/theme";
 import { useClerk } from "@clerk/clerk-expo";
 import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { Tabs, usePathname, useRouter } from "expo-router";
+import { Tabs, useRouter } from "expo-router";
 import { useEffect } from "react";
 export default function TabsLayout() {
   const { isSignedIn, loaded } = useClerk();
   const router = useRouter();
-  const pathname = usePathname(); // Get current path
 
   useEffect(() => {
-    console.log(pathname);
     if (!isSignedIn && loaded) {
-      router.push("/(auth)/sign_in");
+      router.push("/sign_in");
     }
   }, [isSignedIn]);
 

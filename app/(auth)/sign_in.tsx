@@ -22,7 +22,7 @@ export default function SignInScreen() {
 
   const { isSignedIn } = useClerk();
   if (isSignedIn) {
-    router.replace("/(tabs)/home");
+    router.replace("/home");
   }
   const onSignInPress = async () => {
     if (!isLoaded) return;
@@ -35,7 +35,7 @@ export default function SignInScreen() {
 
       if (createdSessionId && setActive) {
         setActive({ session: createdSessionId });
-        router.replace("/(tabs)/home"); // ✅ You control this now
+        router.replace("/home");
       }
     } catch (err: any) {
       const message =

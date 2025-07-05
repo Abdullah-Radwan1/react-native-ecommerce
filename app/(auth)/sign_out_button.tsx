@@ -10,7 +10,7 @@ export default function SignOutButton() {
     const router = useRouter();
     try {
       await signOut();
-      router.replace("/(auth)/sign_in");
+      router.replace("/sign_in");
     } catch (err) {
       console.error(JSON.stringify(err, null, 2));
     }

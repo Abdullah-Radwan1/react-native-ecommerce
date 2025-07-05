@@ -56,7 +56,7 @@ export default function Profile() {
     // Call Convex mutation here to update profile
     setSelectEditProfile(false);
     if (!userData?._id) {
-      Redirect({ href: "/(auth)/sign_in" });
+      Redirect({ href: "/sign_in" });
       return;
     }
     await updateProfile({

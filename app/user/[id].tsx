@@ -24,7 +24,6 @@ const ProfileScreen = () => {
   const { id } = useLocalSearchParams();
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [visible, setVisible] = useState(false);
-  console.log(visible);
   const user = useQuery(api.user.getUserProfile, { userId: id as Id<"users"> });
   const userposts = useQuery(api.user.getUserPosts, {
     userId: id as Id<"users">,
