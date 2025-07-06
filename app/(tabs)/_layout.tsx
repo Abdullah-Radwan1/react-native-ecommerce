@@ -2,8 +2,10 @@
 import { COLORS } from "@/constants/theme";
 import { useClerk } from "@clerk/clerk-expo";
 import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import * as navigation_bar from "expo-navigation-bar";
 import { Tabs, useRouter } from "expo-router";
 import { useEffect } from "react";
+import { Platform } from "react-native";
 export default function TabsLayout() {
   const { isSignedIn, loaded } = useClerk();
   const router = useRouter();
@@ -11,6 +13,10 @@ export default function TabsLayout() {
   useEffect(() => {
     if (!isSignedIn && loaded) {
       router.push("/sign_in");
+    }
+    if (Platform.OS === "android") {
+      navigation_bar.setBackgroundColorAsync(COLORS.background);
+      navigation_bar.setButtonStyleAsync("light");
     }
   }, [isSignedIn]);
 

@@ -1,5 +1,5 @@
 import { COLORS } from "@/constants/theme";
-import { useSignUp, useSSO } from "@clerk/clerk-expo";
+import { useClerk, useSSO } from "@clerk/clerk-expo";
 import { Ionicons } from "@expo/vector-icons";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -14,15 +14,15 @@ import {
 import { Button, Text } from "react-native-paper";
 
 export default function SignUpScreen() {
-  const { isLoaded } = useSignUp();
+  const { isSignedIn, loaded } = useClerk();
   const { startSSOFlow } = useSSO();
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-
+  if (isSignedIn && loaded) {
+    router.replace("/home");
+  }
   const onSignUpPress = async () => {
-    if (!isLoaded) return;
-
     setLoading(true);
 
     try {

@@ -1,5 +1,5 @@
 import { COLORS } from "@/constants/theme";
-import { useClerk, useSignIn, useSSO } from "@clerk/clerk-expo";
+import { useClerk, useSSO } from "@clerk/clerk-expo";
 import { Ionicons } from "@expo/vector-icons";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -14,19 +14,16 @@ import {
 import { Button, Text } from "react-native-paper";
 
 export default function SignInScreen() {
-  const { isLoaded } = useSignIn();
   const { startSSOFlow } = useSSO();
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
-  const { isSignedIn } = useClerk();
-  if (isSignedIn) {
+  const { isSignedIn, loaded } = useClerk();
+  if (isSignedIn && loaded) {
     router.replace("/home");
   }
   const onSignInPress = async () => {
-    if (!isLoaded) return;
-
     setLoading(true);
     try {
       const { createdSessionId, setActive } = await startSSOFlow({

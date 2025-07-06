@@ -4,7 +4,7 @@
     "slug": "my-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/Icon.png",
+    "icon": "./assets/images/Logo.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/Icon.png",
+        "foregroundImage": "./assets/images/Logo.png",
         "backgroundColor": "#000000"
       },
       "edgeToEdgeEnabled": true,
@@ -33,7 +33,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/Icon.png",
+          "image": "./assets/images/Logo.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#000000"
@@ -45,7 +45,10 @@
       "typedRoutes": true
     },
     "extra": {
-      "router": {}
+      "router": {},
+      "eas": {
+        "projectId": "20b2e18c-24f8-463d-86c2-8147acc19c9d"
+      }
     },
     "owner": "abdullah232",
     "runtimeVersion": {

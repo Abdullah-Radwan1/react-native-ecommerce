@@ -37,7 +37,7 @@ type PostUIProps = {
 const PostUI = ({ post }: PostUIProps) => {
   const [isliked, setIsLiked] = useState(post.isLiked);
   const [isBooked, setIsBooked] = useState(post.bookmarked);
-  const [likeCount, setLikeCount] = useState(post.likes);
+  const likeCount = post.likes;
   const [onClose, setonclose] = useState(false);
   const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -59,9 +59,6 @@ const PostUI = ({ post }: PostUIProps) => {
     try {
       const newIsLiked = await toggleLike({ postId: post._id });
       setIsLiked(newIsLiked);
-      setLikeCount((perv) => {
-        return newIsLiked ? perv + 1 : perv - 1;
-      });
     } catch (error) {
       console.log(error);
     }
