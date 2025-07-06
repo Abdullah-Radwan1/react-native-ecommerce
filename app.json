@@ -47,7 +47,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "20b2e18c-24f8-463d-86c2-8147acc19c9d"
+        "projectId": "3f496e64-2c3d-4285-a8f2-bb46d78bd94b"
       }
     },
     "owner": "abdullah232",
@@ -55,7 +55,7 @@
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/23542bc7-b90c-4347-b8f8-f5e6fa312634"
+      "url": "https://u.expo.dev/20b2e18c-24f8-463d-86c2-8147acc19c9d"
     }
   }
 }
